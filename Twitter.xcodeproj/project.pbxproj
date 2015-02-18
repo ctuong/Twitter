@@ -13,6 +13,12 @@
 		EB3264841A946FAE00EE6C0E /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EB3264831A946FAE00EE6C0E /* Images.xcassets */; };
 		EB3264871A946FAE00EE6C0E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = EB3264851A946FAE00EE6C0E /* LaunchScreen.xib */; };
 		EB3264931A946FAE00EE6C0E /* TwitterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = EB3264921A946FAE00EE6C0E /* TwitterTests.m */; };
+		EBD41DE81A9470B20002BDA1 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DE61A9470B20002BDA1 /* LoginViewController.m */; };
+		EBD41DE91A9470B20002BDA1 /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBD41DE71A9470B20002BDA1 /* LoginViewController.xib */; };
+		EBD41DED1A9471300002BDA1 /* TwitterClient.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DEC1A9471300002BDA1 /* TwitterClient.m */; };
+		EBD41DF01A9472B10002BDA1 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBD41DEF1A9472B10002BDA1 /* config.plist */; };
+		EBD41DF41A9481E60002BDA1 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DF31A9481E60002BDA1 /* Tweet.m */; };
+		EBD41DF71A9481EE0002BDA1 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DF61A9481EE0002BDA1 /* User.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +45,16 @@
 		EB32648C1A946FAE00EE6C0E /* TwitterTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwitterTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB3264911A946FAE00EE6C0E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB3264921A946FAE00EE6C0E /* TwitterTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TwitterTests.m; sourceTree = "<group>"; };
+		EBD41DE51A9470B20002BDA1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		EBD41DE61A9470B20002BDA1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		EBD41DE71A9470B20002BDA1 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		EBD41DEB1A9471300002BDA1 /* TwitterClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterClient.h; sourceTree = "<group>"; };
+		EBD41DEC1A9471300002BDA1 /* TwitterClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterClient.m; sourceTree = "<group>"; };
+		EBD41DEF1A9472B10002BDA1 /* config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		EBD41DF21A9481E60002BDA1 /* Tweet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tweet.h; sourceTree = "<group>"; };
+		EBD41DF31A9481E60002BDA1 /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
+		EBD41DF51A9481EE0002BDA1 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		EBD41DF61A9481EE0002BDA1 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +116,9 @@
 		EB3264751A946FAE00EE6C0E /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				EBD41DF11A9481D50002BDA1 /* Models */,
+				EBD41DEE1A9471360002BDA1 /* API */,
+				EBD41DEA1A9471160002BDA1 /* View Controllers */,
 				EB32647A1A946FAE00EE6C0E /* AppDelegate.h */,
 				EB32647B1A946FAE00EE6C0E /* AppDelegate.m */,
 				EB3264831A946FAE00EE6C0E /* Images.xcassets */,
@@ -114,6 +133,7 @@
 			children = (
 				EB3264771A946FAE00EE6C0E /* Info.plist */,
 				EB3264781A946FAE00EE6C0E /* main.m */,
+				EBD41DEF1A9472B10002BDA1 /* config.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -133,6 +153,36 @@
 				EB3264911A946FAE00EE6C0E /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EBD41DEA1A9471160002BDA1 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EBD41DE51A9470B20002BDA1 /* LoginViewController.h */,
+				EBD41DE61A9470B20002BDA1 /* LoginViewController.m */,
+				EBD41DE71A9470B20002BDA1 /* LoginViewController.xib */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		EBD41DEE1A9471360002BDA1 /* API */ = {
+			isa = PBXGroup;
+			children = (
+				EBD41DEB1A9471300002BDA1 /* TwitterClient.h */,
+				EBD41DEC1A9471300002BDA1 /* TwitterClient.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		EBD41DF11A9481D50002BDA1 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				EBD41DF21A9481E60002BDA1 /* Tweet.h */,
+				EBD41DF31A9481E60002BDA1 /* Tweet.m */,
+				EBD41DF51A9481EE0002BDA1 /* User.h */,
+				EBD41DF61A9481EE0002BDA1 /* User.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -217,8 +267,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBD41DF01A9472B10002BDA1 /* config.plist in Resources */,
 				EB3264871A946FAE00EE6C0E /* LaunchScreen.xib in Resources */,
 				EB3264841A946FAE00EE6C0E /* Images.xcassets in Resources */,
+				EBD41DE91A9470B20002BDA1 /* LoginViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,8 +321,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBD41DED1A9471300002BDA1 /* TwitterClient.m in Sources */,
 				EB32647C1A946FAE00EE6C0E /* AppDelegate.m in Sources */,
+				EBD41DF71A9481EE0002BDA1 /* User.m in Sources */,
+				EBD41DF41A9481E60002BDA1 /* Tweet.m in Sources */,
 				EB3264791A946FAE00EE6C0E /* main.m in Sources */,
+				EBD41DE81A9470B20002BDA1 /* LoginViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

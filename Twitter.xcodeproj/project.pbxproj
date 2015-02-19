@@ -19,6 +19,8 @@
 		EBD41DF01A9472B10002BDA1 /* config.plist in Resources */ = {isa = PBXBuildFile; fileRef = EBD41DEF1A9472B10002BDA1 /* config.plist */; };
 		EBD41DF41A9481E60002BDA1 /* Tweet.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DF31A9481E60002BDA1 /* Tweet.m */; };
 		EBD41DF71A9481EE0002BDA1 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DF61A9481EE0002BDA1 /* User.m */; };
+		EBD41DFB1A95B4260002BDA1 /* TweetsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EBD41DF91A95B4260002BDA1 /* TweetsViewController.m */; };
+		EBD41DFC1A95B4260002BDA1 /* TweetsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EBD41DFA1A95B4260002BDA1 /* TweetsViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +57,9 @@
 		EBD41DF31A9481E60002BDA1 /* Tweet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tweet.m; sourceTree = "<group>"; };
 		EBD41DF51A9481EE0002BDA1 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		EBD41DF61A9481EE0002BDA1 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		EBD41DF81A95B4260002BDA1 /* TweetsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetsViewController.h; sourceTree = "<group>"; };
+		EBD41DF91A95B4260002BDA1 /* TweetsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetsViewController.m; sourceTree = "<group>"; };
+		EBD41DFA1A95B4260002BDA1 /* TweetsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetsViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +166,9 @@
 				EBD41DE51A9470B20002BDA1 /* LoginViewController.h */,
 				EBD41DE61A9470B20002BDA1 /* LoginViewController.m */,
 				EBD41DE71A9470B20002BDA1 /* LoginViewController.xib */,
+				EBD41DF81A95B4260002BDA1 /* TweetsViewController.h */,
+				EBD41DF91A95B4260002BDA1 /* TweetsViewController.m */,
+				EBD41DFA1A95B4260002BDA1 /* TweetsViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -268,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBD41DF01A9472B10002BDA1 /* config.plist in Resources */,
+				EBD41DFC1A95B4260002BDA1 /* TweetsViewController.xib in Resources */,
 				EB3264871A946FAE00EE6C0E /* LaunchScreen.xib in Resources */,
 				EB3264841A946FAE00EE6C0E /* Images.xcassets in Resources */,
 				EBD41DE91A9470B20002BDA1 /* LoginViewController.xib in Resources */,
@@ -327,6 +336,7 @@
 				EBD41DF41A9481E60002BDA1 /* Tweet.m in Sources */,
 				EB3264791A946FAE00EE6C0E /* main.m in Sources */,
 				EBD41DE81A9470B20002BDA1 /* LoginViewController.m in Sources */,
+				EBD41DFB1A95B4260002BDA1 /* TweetsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

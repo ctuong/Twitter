@@ -10,8 +10,11 @@
 #import "User.h"
 #import "TwitterClient.h"
 #import "Tweet.h"
+#import "TweetCell.h"
 
 @interface TweetsViewController ()
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 

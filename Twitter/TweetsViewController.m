@@ -42,6 +42,7 @@
     
     [self getTweets];
     
+    // set up pull to refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(refreshTweets) forControlEvents:UIControlEventValueChanged];
     [self.tableView addSubview:self.refreshControl];

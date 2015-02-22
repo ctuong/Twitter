@@ -7,13 +7,13 @@
 //
 
 #import "TwitterClient.h"
-#import "Tweet.h"
 
 NSString * const kTwitterBaseURL = @"https://api.twitter.com";
 NSString * const kTwitterRequestTokenPath = @"oauth/request_token";
 NSString * const kTwitterAccessTokenPath = @"oauth/access_token";
 NSString * const kTwitterUserVerifyCredentialsPath = @"1.1/account/verify_credentials.json";
 NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
+NSString * const kTwitterPostTweetPath = @"1.1/statuses/update.json";
 
 @interface TwitterClient ()
 
@@ -76,6 +76,15 @@ NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
     [self GET:kTwitterHomeTimelinePath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)postTweet:(NSString *)tweet params:(NSDictionary *)params completion:(void (^)(Tweet *tweet, NSError *error))completion {
+    [self POST:kTwitterPostTweetPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(tweet, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error);
     }];

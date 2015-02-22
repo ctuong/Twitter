@@ -32,14 +32,17 @@
     [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
         if (user) {
             // Modally present the tweets view
-            NSLog(@"Welcome to %@", user.name);
-            
             TweetsViewController *tvc = [[TweetsViewController alloc] init];
             UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
+            // nav bar settings
+            nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+            // make all text white
+            NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
+            [[UINavigationBar appearance] setTitleTextAttributes:attributes];
             
             [self presentViewController:nvc animated:YES completion:nil];
         } else {
-            // Present error view
+            NSLog(@"Error logging in: %@", error);
         }
     }];
 }

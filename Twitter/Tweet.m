@@ -13,6 +13,7 @@
 - (id)initWithDictionary:(NSDictionary *)dictionary {
     self = [super init];
     if (self) {
+        // TODO how to handle placeholder ids?
         self.tweetId = [dictionary[@"id"] longLongValue];
         self.text = dictionary[@"text"];
         self.author = [[User alloc] initWithDictionary:dictionary[@"user"]];

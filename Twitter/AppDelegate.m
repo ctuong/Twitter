@@ -26,15 +26,23 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidLogout) name:UserDidLogoutNotification object:nil];
     
+    UINavigationController *nvc;
     User *currentUser = [User currentUser];
     if (currentUser) {
         TweetsViewController *tvc = [[TweetsViewController alloc] init];
-        UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
-        self.window.rootViewController = nvc;
+        nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
     } else {
-        self.window.rootViewController = [[LoginViewController alloc] init];
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        nvc = [[UINavigationController alloc] initWithRootViewController:lvc];
     }
     
+    // nav bar settings
+    nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+    // make all text white
+    NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
+    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+    
+    self.window.rootViewController = nvc;
     [self.window makeKeyAndVisible];
     return YES;
 }

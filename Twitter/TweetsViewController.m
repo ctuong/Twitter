@@ -16,6 +16,7 @@
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *tweets;
+@property (nonatomic, strong) UIRefreshControl *refreshControl;
 
 @end
 
@@ -40,6 +41,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetCell" bundle:nil] forCellReuseIdentifier:@"TweetCell"];
     
     [self getTweets];
+    
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:self.refreshControl];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,7 +71,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 120;
+    return 100;
 }
 
 #pragma mark - UITableViewDelegate methods
@@ -76,6 +81,21 @@
 - (void)getTweets {
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         self.tweets = tweets;
+        [self.tableView reloadData];
+    }];
+}
+
+- (void)refreshTweets {
+    NSDictionary *params = nil;
+    if (self.tweets.count > 0) {
+        long long sinceId = ((Tweet *)self.tweets[0]).tweetId;
+        params = [NSDictionary dictionaryWithObjects:@[@(sinceId)] forKeys:@[@"since_id"]];
+    }
+    
+    [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
+        // put the new tweets at the beginning of the existing tweets list
+        self.tweets = [tweets arrayByAddingObjectsFromArray:self.tweets];
+        [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     }];
 }

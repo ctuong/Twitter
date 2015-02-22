@@ -13,6 +13,7 @@
 #import "TweetCell.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "NewTweetViewController.h"
+#import "TweetDetailViewController.h"
 
 @interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate>
 
@@ -41,9 +42,10 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 100;
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetCell" bundle:nil] forCellReuseIdentifier:@"TweetCell"];
     
-//    [self getTweets];
+    [self getTweets];
     
     // set up pull to refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -79,11 +81,17 @@
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
-}
-
 #pragma mark - UITableViewDelegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    Tweet *tweet = self.tweets[indexPath.row];
+    TweetDetailViewController *tdvc = [[TweetDetailViewController alloc] init];
+    tdvc.tweet = tweet;
+    
+    [self.navigationController pushViewController:tdvc animated:YES];
+}
 
 #pragma mark - NewTweetViewControllerDelegate methods
 

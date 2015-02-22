@@ -21,6 +21,14 @@
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:createdAtString];
+        
+        self.favoriteCount = dictionary[@"favorite_count"];
+        self.retweetCount = dictionary[@"retweet_count"];
+        
+        self.retweetedStatus = nil;
+        if (dictionary[@"retweeted_status"]) {
+            self.retweetedStatus = [[Tweet alloc] initWithDictionary:dictionary[@"retweeted_status"]];
+        }
     }
     
     return self;

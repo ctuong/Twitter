@@ -11,6 +11,7 @@
 
 @interface TweetCell ()
 
+@property (weak, nonatomic) IBOutlet UIImageView *retweetedImage;
 @property (weak, nonatomic) IBOutlet UILabel *retweetedLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -40,13 +41,23 @@
 - (void)setTweet:(Tweet *)tweet {
     _tweet = tweet;
     
-    self.nameLabel.text = tweet.author.name;
-    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", tweet.author.username];
-    self.tweetLabel.text = tweet.text;
-    
     self.userImageView.layer.cornerRadius = 3;
     self.userImageView.clipsToBounds = YES;
-    NSURL *profileImageURL = [NSURL URLWithString:tweet.author.profileImageURL];
+    
+    Tweet *actualTweet = tweet;
+    
+    if (tweet.retweetedStatus) {
+        actualTweet = tweet.retweetedStatus;
+        self.retweetedLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.author.name];
+    } else {
+        // TODO remove the retweeted icon and label
+    }
+    
+    self.nameLabel.text = actualTweet.author.name;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", actualTweet.author.username];
+    self.tweetLabel.text = actualTweet.text;
+    
+    NSURL *profileImageURL = [NSURL URLWithString:actualTweet.author.profileImageURL];
     [self.userImageView setImageWithURL:profileImageURL];
 }
 

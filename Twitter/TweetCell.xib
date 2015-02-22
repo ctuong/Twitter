@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -22,7 +23,7 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCT-jj-Hx1">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCT-jj-Hx1">
                         <rect key="frame" x="8" y="29" width="50" height="50"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="SrV-Rt-OTp"/>
@@ -77,33 +78,28 @@
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwV-Ac-ZP7">
-                        <rect key="frame" x="42" y="5" width="16" height="16"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="16" id="ILF-0N-NPo"/>
-                            <constraint firstAttribute="width" constant="16" id="Mxl-5P-vzy"/>
-                        </constraints>
-                        <state key="normal" image="retweet-default">
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                    </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="@ctuong" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fp-19-sXP">
                         <rect key="frame" x="159" y="29" width="56.5" height="17"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="retweet-default" translatesAutoresizingMaskIntoConstraints="NO" id="0dh-Wm-6M8">
+                        <rect key="frame" x="42" y="5" width="16" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="16" id="2v6-Hf-dE6"/>
+                            <constraint firstAttribute="width" constant="16" id="TS5-Yn-2ge"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="uXR-16-73U" firstAttribute="leading" secondItem="NCT-jj-Hx1" secondAttribute="trailing" constant="8" id="2Ff-Am-Glk"/>
                     <constraint firstAttribute="trailing" secondItem="bLR-qO-J0B" secondAttribute="trailing" constant="8" id="55N-r0-1pn"/>
                     <constraint firstItem="uXR-16-73U" firstAttribute="top" secondItem="kEy-fV-U6G" secondAttribute="bottom" constant="4" id="6NK-Vi-8QG"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="NCT-jj-Hx1" secondAttribute="bottom" constant="8" id="805-UL-qMa"/>
-                    <constraint firstItem="NCT-jj-Hx1" firstAttribute="top" secondItem="xwV-Ac-ZP7" secondAttribute="bottom" constant="8" id="9h8-Bn-n0b"/>
                     <constraint firstItem="uXR-16-73U" firstAttribute="top" secondItem="28m-qY-Ipl" secondAttribute="bottom" constant="4" id="BME-vB-kuM"/>
                     <constraint firstItem="UkZ-Fe-vyX" firstAttribute="leading" secondItem="FPm-Uf-Joa" secondAttribute="trailing" constant="35" id="BU4-1q-ywk"/>
                     <constraint firstItem="OIT-C9-fjE" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="66" id="CBw-JT-rDS"/>
-                    <constraint firstItem="xwV-Ac-ZP7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="42" id="CUN-on-emF"/>
                     <constraint firstItem="28m-qY-Ipl" firstAttribute="top" secondItem="bLR-qO-J0B" secondAttribute="bottom" constant="11" id="D8s-q6-SES"/>
                     <constraint firstItem="NCT-jj-Hx1" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="Fxr-wS-Vo3"/>
                     <constraint firstItem="kEy-fV-U6G" firstAttribute="leading" secondItem="NCT-jj-Hx1" secondAttribute="trailing" constant="8" id="HIr-ip-cyS"/>
@@ -112,18 +108,20 @@
                     <constraint firstItem="UkZ-Fe-vyX" firstAttribute="top" secondItem="uXR-16-73U" secondAttribute="bottom" constant="4" id="Np5-Rl-JZk"/>
                     <constraint firstItem="FPm-Uf-Joa" firstAttribute="top" secondItem="uXR-16-73U" secondAttribute="bottom" constant="4" id="PQk-HY-OW7"/>
                     <constraint firstItem="2fp-19-sXP" firstAttribute="top" secondItem="bLR-qO-J0B" secondAttribute="bottom" constant="11" id="QrS-qM-j2N"/>
-                    <constraint firstItem="bLR-qO-J0B" firstAttribute="leading" secondItem="xwV-Ac-ZP7" secondAttribute="trailing" constant="8" id="TBE-hO-D8Y"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="OIT-C9-fjE" secondAttribute="bottom" constant="8" id="Usi-Js-frV"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FPm-Uf-Joa" secondAttribute="bottom" constant="8" id="XEK-u0-5wc"/>
                     <constraint firstItem="uXR-16-73U" firstAttribute="top" secondItem="2fp-19-sXP" secondAttribute="bottom" constant="4" id="YEF-AH-UTF"/>
                     <constraint firstItem="28m-qY-Ipl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="2fp-19-sXP" secondAttribute="trailing" constant="8" id="ZtZ-ot-m96"/>
+                    <constraint firstItem="0dh-Wm-6M8" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="34" id="e1k-Y2-vef"/>
                     <constraint firstItem="OIT-C9-fjE" firstAttribute="top" secondItem="uXR-16-73U" secondAttribute="bottom" constant="4" id="jIh-Ff-0Gw"/>
                     <constraint firstAttribute="trailing" secondItem="uXR-16-73U" secondAttribute="trailing" constant="8" id="lGI-ld-fIP"/>
                     <constraint firstItem="kEy-fV-U6G" firstAttribute="top" secondItem="bLR-qO-J0B" secondAttribute="bottom" constant="11" id="mWD-Yq-E9z"/>
+                    <constraint firstItem="bLR-qO-J0B" firstAttribute="leading" secondItem="0dh-Wm-6M8" secondAttribute="trailing" constant="8" id="qe8-jd-bjQ"/>
                     <constraint firstItem="NCT-jj-Hx1" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="29" id="tAB-9r-TF7"/>
                     <constraint firstItem="2fp-19-sXP" firstAttribute="leading" secondItem="kEy-fV-U6G" secondAttribute="trailing" constant="8" id="tmX-Tt-CS6"/>
                     <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="UkZ-Fe-vyX" secondAttribute="bottom" constant="8" id="vsw-FM-Sdr"/>
                     <constraint firstItem="bLR-qO-J0B" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="vyV-4K-jL5"/>
+                    <constraint firstItem="NCT-jj-Hx1" firstAttribute="top" secondItem="0dh-Wm-6M8" secondAttribute="bottom" constant="8" id="xnA-td-vKE"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
@@ -131,7 +129,8 @@
                 <outlet property="nameLabel" destination="kEy-fV-U6G" id="BAR-sX-hGR"/>
                 <outlet property="replyButton" destination="OIT-C9-fjE" id="RUg-GY-Gg4"/>
                 <outlet property="retweetButton" destination="FPm-Uf-Joa" id="gUi-Vj-Qj6"/>
-                <outlet property="retweetedLabel" destination="bLR-qO-J0B" id="dyr-fd-S7F"/>
+                <outlet property="retweetedImage" destination="0dh-Wm-6M8" id="9hD-hI-NgS"/>
+                <outlet property="retweetedLabel" destination="bLR-qO-J0B" id="YEI-41-mcV"/>
                 <outlet property="tweetLabel" destination="uXR-16-73U" id="sNe-ZG-aUT"/>
                 <outlet property="tweetTimeLabel" destination="28m-qY-Ipl" id="AX9-LZ-kXS"/>
                 <outlet property="userImageView" destination="NCT-jj-Hx1" id="NbZ-Zv-PRp"/>

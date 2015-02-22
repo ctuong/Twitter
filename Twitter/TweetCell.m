@@ -7,6 +7,7 @@
 //
 
 #import "TweetCell.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface TweetCell ()
 
@@ -26,12 +27,27 @@
 
 - (void)awakeFromNib {
     // Initialization code
+    
+    self.tweetLabel.preferredMaxLayoutWidth = self.tweetLabel.frame.size.width;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setTweet:(Tweet *)tweet {
+    _tweet = tweet;
+    
+    self.nameLabel.text = tweet.author.name;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", tweet.author.username];
+    self.tweetLabel.text = tweet.text;
+    
+    self.userImageView.layer.cornerRadius = 3;
+    self.userImageView.clipsToBounds = YES;
+    NSURL *profileImageURL = [NSURL URLWithString:tweet.author.profileImageURL];
+    [self.userImageView setImageWithURL:profileImageURL];
 }
 
 @end

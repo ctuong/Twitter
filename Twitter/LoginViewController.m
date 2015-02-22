@@ -32,7 +32,10 @@
             // Modally present the tweets view
             NSLog(@"Welcome to %@", user.name);
             
-            [self presentViewController:[[TweetsViewController alloc] init] animated:YES completion:nil];
+            TweetsViewController *tvc = [[TweetsViewController alloc] init];
+            UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
+            
+            [self presentViewController:nvc animated:YES completion:nil];
         } else {
             // Present error view
         }

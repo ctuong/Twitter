@@ -12,9 +12,10 @@
 #import "Tweet.h"
 #import "TweetCell.h"
 
-@interface TweetsViewController ()
+@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSArray *tweets;
 
 @end
 
@@ -24,11 +25,21 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
-        for (Tweet *tweet in tweets) {
-            NSLog(@"text: %@", tweet.text);
-        }
-    }];
+    self.title = @"Home";
+    
+    id topGuide = self.topLayoutGuide;
+    UITableView *tableView = self.tableView;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(tableView, topGuide);
+    
+    // place the table under the nav bar
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[tableView]" options:0 metrics:nil views:viewsDictionary]];
+    
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    [self.tableView registerNib:[UINib nibWithNibName:@"TweetCell" bundle:nil] forCellReuseIdentifier:@"TweetCell"];
+    
+    [self getTweets];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -38,6 +49,35 @@
 
 - (IBAction)onLogout:(id)sender {
     [User logout];
+}
+
+#pragma mark - UITableViewDataSource methods
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.tweets.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
+    
+    cell.tweet = self.tweets[indexPath.row];
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 120;
+}
+
+#pragma mark - UITableViewDelegate methods
+
+#pragma mark - Private methods
+
+- (void)getTweets {
+    [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
+        self.tweets = tweets;
+        [self.tableView reloadData];
+    }];
 }
 
 /*

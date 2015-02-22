@@ -66,15 +66,6 @@ NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
             NSLog(@"failed to get current user");
             self.loginCompletion(nil, error);
         }];
-        
-//        [[TwitterClient sharedInstance] GET:@"1.1/statuses/home_timeline.json" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//            NSArray *tweets = [Tweet tweetsWithArray:responseObject];
-//            for (Tweet *tweet in tweets) {
-//                NSLog(@"tweet: %@, created: %@", tweet.text, tweet.createdAt);
-//            }
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//            NSLog(@"failed to get tweets");
-//        }];
     } failure:^(NSError *error) {
         NSLog(@"failed to get the access token");
         self.loginCompletion(nil, error);

@@ -85,7 +85,14 @@ NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
 }
 
 - (void)postTweet:(NSString *)tweet params:(NSDictionary *)params completion:(void (^)(Tweet *tweet, NSError *error))completion {
-    [self POST:kTwitterPostTweetPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *inReplyToParam = @"";
+    if (params[@"in_reply_to_status_id"]) {
+        inReplyToParam = [NSString stringWithFormat:@"&in_reply_to_status_id=%lld", [params[@"in_reply_to_status_id"] longLongValue]];
+    }
+    NSString *unescapedUrlPath = [NSString stringWithFormat:@"%@?status=%@%@", kTwitterPostTweetPath, tweet, inReplyToParam];
+    NSString *escapedUrlPath = [unescapedUrlPath stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    
+    [self POST:escapedUrlPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
         completion(tweet, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

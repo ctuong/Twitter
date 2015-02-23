@@ -17,7 +17,9 @@
                 <outlet property="timestampLabel" destination="0zx-C1-sPp" id="9ij-eV-E6q"/>
                 <outlet property="tweetLabel" destination="DGS-xy-16B" id="WeS-kt-O5h"/>
                 <outlet property="userImageView" destination="1jB-K3-eh1" id="p6y-sr-hd9"/>
+                <outlet property="userImageViewTopConstraint" destination="1uN-al-R5u" id="xHp-mm-b2U"/>
                 <outlet property="usernameLabel" destination="NGp-DM-Fey" id="65I-Zw-cd4"/>
+                <outlet property="usernameLabelTopConstraint" destination="Fc2-Xl-Mp1" id="177-ty-T3n"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

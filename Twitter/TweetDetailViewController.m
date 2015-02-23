@@ -25,6 +25,11 @@
 @property (weak, nonatomic) IBOutlet UIImageView *retweetedImage;
 @property (weak, nonatomic) IBOutlet UILabel *retweetedLabel;
 
+// constraints
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *usernameLabelTopConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *userImageViewTopConstraint;
+
+
 @end
 
 @implementation TweetDetailViewController
@@ -37,12 +42,33 @@
     
     // place under the nav bar
     id topGuide = self.topLayoutGuide;
-    UIImageView *retweetedImage = self.retweetedImage;
-    UILabel *retweetedLabel = self.retweetedLabel;
-    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(retweetedImage, retweetedLabel, topGuide);
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedImage]" options:0 metrics:nil views:viewsDictionary]];
-    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedLabel]" options:0 metrics:nil views:viewsDictionary]];
     
+    if (self.tweet.retweetedStatus) {
+        UIImageView *retweetedImage = self.retweetedImage;
+        UILabel *retweetedLabel = self.retweetedLabel;
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(retweetedImage, retweetedLabel, topGuide);
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedImage]" options:0 metrics:nil views:viewsDictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedLabel]" options:0 metrics:nil views:viewsDictionary]];
+    } else {
+        // remove the retweet icon and "xyz retweeted" label
+        self.retweetedImage.frame = CGRectMake(0, 0, 0, 0);
+        self.retweetedLabel.frame = CGRectMake(0, 0, 0, 0);
+        [self.retweetedImage removeFromSuperview];
+        [self.retweetedLabel removeFromSuperview];
+        
+        UIImageView *userImageView = self.userImageView;
+        UILabel *usernameLabel = self.usernameLabel;
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(userImageView, usernameLabel, topGuide);
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[userImageView]" options:0 metrics:nil views:viewsDictionary]];
+        [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-32-[usernameLabel]" options:0 metrics:nil views:viewsDictionary]];
+        
+        [self removeConstraintsForView:self.retweetedImage];
+        [self removeConstraintsForView:self.retweetedLabel];
+        self.usernameLabelTopConstraint.active = NO;
+        self.userImageViewTopConstraint.active = NO;
+    }
+    
+    // add observers to automatically update favorite and retweet count
     [self.tweet addObserver:self forKeyPath:@"favoriteCount" options:NSKeyValueObservingOptionNew context:NULL];
     [self.tweet addObserver:self forKeyPath:@"retweetCount" options:NSKeyValueObservingOptionNew context:NULL];
 }
@@ -58,8 +84,6 @@
     if (tweet.retweetedStatus) {
         actualTweet = tweet.retweetedStatus;
         self.retweetedLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.author.name];
-    } else {
-        // TODO remove the retweeted icon and label
     }
     
     self.nameLabel.text = actualTweet.author.name;
@@ -132,6 +156,12 @@
     formatter.dateFormat = @"M/d/yy, h:mm a";
     
     self.timestampLabel.text = [formatter stringFromDate:self.tweet.createdAt];
+}
+
+- (void)removeConstraintsForView:(UIView *)view {
+    for (NSLayoutConstraint *constraint in view.constraints) {
+        constraint.active = NO;
+    }
 }
 
 /*

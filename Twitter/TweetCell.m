@@ -55,7 +55,26 @@
         actualTweet = tweet.retweetedStatus;
         self.retweetedLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.author.name];
     } else {
-        // TODO remove the retweeted icon and label
+        // remove the retweet icon and "xyz retweeted" label
+        self.retweetedLabel.hidden = YES;
+        self.retweetedImage.hidden = YES;
+//        self.retweetedImage.frame = CGRectMake(0, 0, 0, 0);
+//        self.retweetedLabel.frame = CGRectMake(0, 0, 0, 0);
+//        [self.retweetedImage removeFromSuperview];
+//        [self.retweetedLabel removeFromSuperview];
+//        
+        UIImageView *userImageView = self.userImageView;
+        UILabel *nameLabel = self.nameLabel;
+        UILabel *usernameLabel = self.usernameLabel;
+        UILabel *tweetTimeLabel = self.tweetTimeLabel;
+        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(userImageView, nameLabel, usernameLabel, tweetTimeLabel);
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[userImageView]" options:0 metrics:nil views:viewsDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[nameLabel]" options:0 metrics:nil views:viewsDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[usernameLabel]" options:0 metrics:nil views:viewsDictionary]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[tweetTimeLabel]" options:0 metrics:nil views:viewsDictionary]];
+        
+        [self removeConstraintsForView:self.retweetedImage];
+        [self removeConstraintsForView:self.retweetedLabel];
     }
     
     self.nameLabel.text = actualTweet.author.name;
@@ -127,6 +146,12 @@
     }
     
     self.tweetTimeLabel.text = labelText;
+}
+
+- (void)removeConstraintsForView:(UIView *)view {
+    for (NSLayoutConstraint *constraint in view.constraints) {
+        constraint.active = NO;
+    }
 }
 
 @end

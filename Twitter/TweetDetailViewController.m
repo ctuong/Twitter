@@ -42,6 +42,9 @@
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(retweetedImage, retweetedLabel, topGuide);
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedImage]" options:0 metrics:nil views:viewsDictionary]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-8-[retweetedLabel]" options:0 metrics:nil views:viewsDictionary]];
+    
+    [self.tweet addObserver:self forKeyPath:@"favoriteCount" options:NSKeyValueObservingOptionNew context:NULL];
+    [self.tweet addObserver:self forKeyPath:@"retweetCount" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,8 +65,9 @@
     self.nameLabel.text = actualTweet.author.name;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", actualTweet.author.username];
     self.tweetLabel.text = actualTweet.text;
-    self.retweetCountLabel.text = [actualTweet.retweetCount stringValue];
-    self.favoriteCountLabel.text = [actualTweet.favoriteCount stringValue];
+    
+    [self setLabel:self.retweetCountLabel withInteger:actualTweet.retweetCount];
+    [self setLabel:self.favoriteCountLabel withInteger:actualTweet.favoriteCount];
     
     self.userImageView.layer.cornerRadius = 3;
     self.userImageView.clipsToBounds = YES;
@@ -106,6 +110,19 @@
         suffix = @"on";
     }
     return [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", action, suffix]];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    Tweet *tweet = (Tweet *)object;
+    if ([keyPath isEqualToString:@"favoriteCount"]) {
+        [self setLabel:self.favoriteCountLabel withInteger:tweet.favoriteCount];
+    } else if ([keyPath isEqualToString:@"retweetCount"]) {
+        [self setLabel:self.retweetCountLabel withInteger:tweet.retweetCount];
+    }
+}
+
+- (void)setLabel:(UILabel *)label withInteger:(NSInteger)integer {
+    label.text = [NSString stringWithFormat:@"%ld", (long)integer];
 }
 
 /*

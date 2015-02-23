@@ -111,30 +111,30 @@
         [[TwitterClient sharedInstance] unfavoriteTweet:tweet completion:^(Tweet *returnedTweet, NSError *error) {
             if (error) {
                 // change the favorited status of the tweet back to YES
-                tweet.favorited = YES;
+                [tweet setFavoritedState:YES];
             }
         }];
     } else {
         [[TwitterClient sharedInstance] favoriteTweet:tweet completion:^(Tweet *returnedTweet, NSError *error) {
             if (error) {
                 // change the favorited status of the tweet back to NO
-                tweet.favorited = NO;
+                [tweet setFavoritedState:NO];
             }
         }];
     }
     
-    tweet.favorited = !currentState;
+    [tweet setFavoritedState:!currentState];
 }
 
 - (void)retweetTweet:(Tweet *)tweet sender:(id)sender {
     [[TwitterClient sharedInstance] retweetTweet:tweet params:nil completion:^(Tweet *returnedTweet, NSError *error) {
         if (error) {
             // change the retweeted status of the tweet back to NO
-            tweet.retweeted = NO;
+            [tweet setRetweetedState:NO];
         }
     }];
     
-    tweet.retweeted = YES;
+    [tweet setRetweetedState:YES];
 }
 
 - (void)replyToTweet:(Tweet *)tweet sender:(id)sender {

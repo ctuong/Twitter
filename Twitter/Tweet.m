@@ -22,8 +22,8 @@
         formatter.dateFormat = @"EEE MMM d HH:mm:ss Z y";
         self.createdAt = [formatter dateFromString:createdAtString];
         
-        self.favoriteCount = dictionary[@"favorite_count"];
-        self.retweetCount = dictionary[@"retweet_count"];
+        self.favoriteCount = [dictionary[@"favorite_count"] integerValue];
+        self.retweetCount = [dictionary[@"retweet_count"] integerValue];
         
         self.retweetedStatus = nil;
         if (dictionary[@"retweeted_status"]) {
@@ -52,6 +52,24 @@
         return self.retweetedStatus;
     }
     return self;
+}
+
+- (void)setFavoritedState:(BOOL)state {
+    self.favorited = state;
+    if (state) {
+        self.favoriteCount += 1;
+    } else {
+        self.favoriteCount -= 1;
+    }
+}
+
+- (void)setRetweetedState:(BOOL)state {
+    self.retweeted = state;
+    if (state) {
+        self.retweetCount += 1;
+    } else {
+        self.retweetCount -= 1;
+    }
 }
 
 @end

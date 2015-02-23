@@ -27,6 +27,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *retweetButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *retweetedImageHeightConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *retweetedLabelHeightConstraint;
+
+
 @end
 
 @implementation TweetCell
@@ -54,27 +58,12 @@
     if (tweet.retweetedStatus) {
         actualTweet = tweet.retweetedStatus;
         self.retweetedLabel.text = [NSString stringWithFormat:@"%@ retweeted", tweet.author.name];
+        self.retweetedLabelHeightConstraint.constant = 10.f;
+        self.retweetedImageHeightConstraint.constant = 16.f;
     } else {
         // remove the retweet icon and "xyz retweeted" label
-        self.retweetedLabel.hidden = YES;
-        self.retweetedImage.hidden = YES;
-//        self.retweetedImage.frame = CGRectMake(0, 0, 0, 0);
-//        self.retweetedLabel.frame = CGRectMake(0, 0, 0, 0);
-//        [self.retweetedImage removeFromSuperview];
-//        [self.retweetedLabel removeFromSuperview];
-//        
-        UIImageView *userImageView = self.userImageView;
-        UILabel *nameLabel = self.nameLabel;
-        UILabel *usernameLabel = self.usernameLabel;
-        UILabel *tweetTimeLabel = self.tweetTimeLabel;
-        NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(userImageView, nameLabel, usernameLabel, tweetTimeLabel);
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[userImageView]" options:0 metrics:nil views:viewsDictionary]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[nameLabel]" options:0 metrics:nil views:viewsDictionary]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[usernameLabel]" options:0 metrics:nil views:viewsDictionary]];
-        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-8-[tweetTimeLabel]" options:0 metrics:nil views:viewsDictionary]];
-        
-        [self removeConstraintsForView:self.retweetedImage];
-        [self removeConstraintsForView:self.retweetedLabel];
+        self.retweetedImageHeightConstraint.constant = 0.f;
+        self.retweetedLabelHeightConstraint.constant = 0.f;
     }
     
     self.nameLabel.text = actualTweet.author.name;

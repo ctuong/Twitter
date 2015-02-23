@@ -139,7 +139,9 @@
                 <outlet property="replyButton" destination="OIT-C9-fjE" id="RUg-GY-Gg4"/>
                 <outlet property="retweetButton" destination="FPm-Uf-Joa" id="gUi-Vj-Qj6"/>
                 <outlet property="retweetedImage" destination="0dh-Wm-6M8" id="9hD-hI-NgS"/>
+                <outlet property="retweetedImageHeightConstraint" destination="2v6-Hf-dE6" id="Nrx-eT-WNX"/>
                 <outlet property="retweetedLabel" destination="bLR-qO-J0B" id="YEI-41-mcV"/>
+                <outlet property="retweetedLabelHeightConstraint" destination="0WM-9T-bm9" id="OpK-xW-i69"/>
                 <outlet property="tweetLabel" destination="uXR-16-73U" id="sNe-ZG-aUT"/>
                 <outlet property="tweetTimeLabel" destination="28m-qY-Ipl" id="AX9-LZ-kXS"/>
                 <outlet property="userImageView" destination="NCT-jj-Hx1" id="NbZ-Zv-PRp"/>

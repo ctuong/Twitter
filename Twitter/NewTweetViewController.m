@@ -19,6 +19,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 @property (weak, nonatomic) IBOutlet UITextView *tweetTextView;
+@property (nonatomic, strong) UIBarButtonItem *tweetCounter;
+@property (nonatomic, strong) UIBarButtonItem *tweetButton;
 
 @end
 
@@ -41,8 +43,13 @@
     UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain target:self action:@selector(onCancelButton)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     
-    UIBarButtonItem *tweetButton = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweetButton)];
-    self.navigationItem.rightBarButtonItem = tweetButton;
+    self.tweetButton = [[UIBarButtonItem alloc] initWithTitle:@"Tweet" style:UIBarButtonItemStylePlain target:self action:@selector(onTweetButton)];
+    
+    self.tweetCounter = [[UIBarButtonItem alloc] initWithTitle:[NSString stringWithFormat:@"%ld", (long)kMaxTweetChars] style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.tweetCounter.enabled = NO;
+    self.tweetCounter.tintColor = [UIColor colorWithWhite:0.3 alpha:1];
+    
+    self.navigationItem.rightBarButtonItems = @[self.tweetButton, self.tweetCounter];
     
     User *user = [User currentUser];
     
@@ -58,6 +65,7 @@
     
     if (self.inReplyToTweet) {
         self.tweetTextView.text = [NSString stringWithFormat:@"@%@ ", self.inReplyToTweet.author.username];
+        [self updateTweetCounterWithRemaining:(kMaxTweetChars - self.tweetTextView.text.length)];
     }
 }
 
@@ -73,8 +81,8 @@
 #pragma mark - UITextViewDelegate methods
 
 - (void)textViewDidChange:(UITextView *)textView {
-    // TODO update the character count
-    // disable the tweet button if character count > max
+    NSInteger remaining = kMaxTweetChars - textView.text.length;
+    [self updateTweetCounterWithRemaining:remaining];
 }
 
 #pragma mark - Private methods
@@ -106,6 +114,19 @@
     }
     
     [self onCancelButton];
+}
+
+- (void)updateTweetCounterWithRemaining:(NSInteger)remaining {
+    [UIView setAnimationsEnabled:NO];
+    self.tweetCounter.title = [NSString stringWithFormat:@"%ld", remaining];
+    
+    if (remaining < 0) {
+        // disable the tweet button
+        self.tweetButton.enabled = NO;
+    } else {
+        self.tweetButton.enabled = YES;
+    }
+    [UIView setAnimationsEnabled:YES];
 }
 
 /*

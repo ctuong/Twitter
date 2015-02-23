@@ -9,6 +9,11 @@
 #import "TweetCell.h"
 #import "UIImageView+AFNetworking.h"
 
+#define kSecondsInMinute 60
+#define kSecondsInHour 3600
+#define kSecondsInDay 86400
+#define kSecondsInWeek 604800
+
 @interface TweetCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *retweetedImage;
@@ -59,6 +64,8 @@
     
     NSURL *profileImageURL = [NSURL URLWithString:actualTweet.author.profileImageURL];
     [self.userImageView setImageWithURL:profileImageURL];
+    
+    [self formatTweetTimeLabel];
 }
 
 - (IBAction)onReplyButton:(id)sender {
@@ -90,6 +97,32 @@
         suffix = @"on";
     }
     return [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", action, suffix]];
+}
+
+- (void)formatTweetTimeLabel {
+    NSDate *createdAt = self.tweet.createdAt;
+    NSTimeInterval interval = createdAt.timeIntervalSinceNow;
+    NSString *labelText;
+    
+    if (interval > -kSecondsInMinute) {
+        labelText = [NSString stringWithFormat:@"%lds", (long)-interval];
+    } else if (interval > -kSecondsInHour) {
+        // less than an hour ago
+        long num = (long)(-interval / kSecondsInMinute);
+        labelText = [NSString stringWithFormat:@"%ldm", num];
+    } else if (interval > -kSecondsInDay) {
+        // less than a day ago
+        long num = (long)(-interval / kSecondsInHour);
+        labelText = [NSString stringWithFormat:@"%ldh", num];
+    } else if (interval > -kSecondsInWeek) {
+        // less than a week ago
+        long num = (long)(-interval / kSecondsInDay);
+        labelText = [NSString stringWithFormat:@"%ldd", num];
+    } else {
+        // just print the date
+    }
+    
+    self.tweetTimeLabel.text = labelText;
 }
 
 @end

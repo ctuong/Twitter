@@ -79,6 +79,8 @@
     if (actualTweet.isRetweeted) {
         self.retweetButton.enabled = NO;
     }
+    
+    [self formatTimestampLabel];
 }
 
 - (IBAction)onReplyButton:(id)sender {
@@ -123,6 +125,13 @@
 
 - (void)setLabel:(UILabel *)label withInteger:(NSInteger)integer {
     label.text = [NSString stringWithFormat:@"%ld", (long)integer];
+}
+
+- (void)formatTimestampLabel {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"M/d/yy, h:mm a";
+    
+    self.timestampLabel.text = [formatter stringFromDate:self.tweet.createdAt];
 }
 
 /*

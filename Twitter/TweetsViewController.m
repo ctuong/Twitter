@@ -15,6 +15,7 @@
 #import "NewTweetViewController.h"
 #import "TweetDetailViewController.h"
 #import "TweetActionDelegate.h"
+#import <UIScrollView+SVInfiniteScrolling.h>
 
 @interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate, TweetActionDelegate>
 
@@ -51,6 +52,10 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetCell" bundle:nil] forCellReuseIdentifier:@"TweetCell"];
     
     [self getTweets];
+    
+    [self.tableView addInfiniteScrollingWithActionHandler:^{
+        [self getMoreTweets];
+    }];
     
     // set up pull to refresh
     self.refreshControl = [[UIRefreshControl alloc] init];
@@ -228,6 +233,21 @@
         self.tweets = [tweets arrayByAddingObjectsFromArray:self.tweets];
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
+    }];
+}
+
+- (void)getMoreTweets {
+    NSDictionary *params = nil;
+    if (self.tweets.count > 0) {
+        long long maxId = ((Tweet *)self.tweets[self.tweets.count - 1]).tweetId;
+        // use maxId - 1 so we don't get a repeated tweet
+        params = [NSDictionary dictionaryWithObjects:@[@(maxId - 1)] forKeys:@[@"max_id"]];
+    }
+    
+    [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
+        self.tweets = [self.tweets arrayByAddingObjectsFromArray:tweets];
+        [self.tableView reloadData];
+        [[self.tableView infiniteScrollingView] stopAnimating];
     }];
 }
 

@@ -75,6 +75,8 @@
     
     if (actualTweet.isRetweeted || [actualTweet authorIsUser:[User currentUser]]) {
         self.retweetButton.enabled = NO;
+    } else {
+        self.retweetButton.enabled = YES;
     }
     
     [self formatTweetTimeLabel];

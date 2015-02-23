@@ -55,6 +55,10 @@
     
     self.tweetTextView.delegate = self;
     self.tweetTextView.text = @"";
+    
+    if (self.inReplyToTweet) {
+        self.tweetTextView.text = [NSString stringWithFormat:@"@%@ ", self.inReplyToTweet.author.username];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -83,7 +87,12 @@
 - (void)onTweetButton {
     NSString *tweetText = self.tweetTextView.text;
     
-    [[TwitterClient sharedInstance] postTweet:tweetText params:nil completion:^(Tweet *tweet, NSError *error) {
+    NSDictionary *params = nil;
+    if (self.inReplyToTweet) {
+        params = [NSDictionary dictionaryWithObjects:@[@(self.inReplyToTweet.tweetId)] forKeys:@[@"in_reply_to_status_id"]];
+    }
+    
+    [[TwitterClient sharedInstance] postTweet:tweetText params:params completion:^(Tweet *tweet, NSError *error) {
         if (error) {
             NSLog(@"Error posting tweet: %@", error);
         } else {

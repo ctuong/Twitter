@@ -57,6 +57,9 @@
                         <state key="normal" image="retweet-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="onRetweetButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="JwH-Sz-gPv"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UkZ-Fe-vyX">
                         <rect key="frame" x="168" y="71" width="16" height="16"/>
@@ -67,6 +70,9 @@
                         <state key="normal" image="favorite-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="onFavoriteButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="Lg8-Nq-QK8"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OIT-C9-fjE">
                         <rect key="frame" x="66" y="71" width="16" height="16"/>
@@ -77,6 +83,9 @@
                         <state key="normal" image="reply-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="onReplyButton:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hQr-SO-y3i"/>
+                        </connections>
                     </button>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="@ctuong" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2fp-19-sXP">
                         <rect key="frame" x="159" y="29" width="56.5" height="17"/>

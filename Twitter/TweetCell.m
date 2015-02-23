@@ -61,4 +61,35 @@
     [self.userImageView setImageWithURL:profileImageURL];
 }
 
+- (IBAction)onReplyButton:(id)sender {
+    [self.tweetActionDelegate replyToTweet:[self.tweet actualTweet] sender:self];
+}
+
+- (IBAction)onRetweetButton:(id)sender {
+    Tweet *actualTweet = [self.tweet actualTweet];
+    if (actualTweet.isRetweeted) {
+        // if the tweet was already retweeted by this user, do nothing
+        return;
+    }
+    
+    [self.tweetActionDelegate retweetTweet:actualTweet sender:self];
+    [self.retweetButton setImage:[self imageForAction:@"retweet" on:YES] forState:UIControlStateNormal];
+    self.retweetButton.enabled = NO;
+}
+
+- (IBAction)onFavoriteButton:(id)sender {
+    Tweet *actualTweet = [self.tweet actualTweet];
+    BOOL wasFavorited = actualTweet.isFavorited;
+    [self.tweetActionDelegate favoriteForTweet:actualTweet sender:self];
+    [self.favoriteButton setImage:[self imageForAction:@"favorite" on:!wasFavorited] forState:UIControlStateNormal];
+}
+
+- (UIImage *)imageForAction:(NSString *)action on:(BOOL)on {
+    NSString *suffix = @"default";
+    if (on) {
+        suffix = @"on";
+    }
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", action, suffix]];
+}
+
 @end

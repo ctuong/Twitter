@@ -8,6 +8,7 @@
 
 #import "TweetDetailViewController.h"
 #import <UIImageView+AFNetworking.h>
+#import "TwitterClient.h"
 
 @interface TweetDetailViewController ()
 
@@ -21,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *replyButton;
 @property (weak, nonatomic) IBOutlet UIButton *retweetButton;
 @property (weak, nonatomic) IBOutlet UIButton *favoriteButton;
-
 @property (weak, nonatomic) IBOutlet UIImageView *retweetedImage;
 @property (weak, nonatomic) IBOutlet UILabel *retweetedLabel;
 
@@ -69,6 +69,43 @@
     self.userImageView.clipsToBounds = YES;
     NSURL *profileImageURL = [NSURL URLWithString:actualTweet.author.profileImageURL];
     [self.userImageView setImageWithURL:profileImageURL];
+    
+    [self.favoriteButton setImage:[self imageForAction:@"favorite" on:actualTweet.isFavorited] forState:UIControlStateNormal];
+    [self.retweetButton setImage:[self imageForAction:@"retweet" on:actualTweet.isRetweeted] forState:UIControlStateNormal];
+    if (actualTweet.isRetweeted) {
+        self.retweetButton.enabled = NO;
+    }
+}
+
+- (IBAction)onReplyButton:(id)sender {
+    [self.tweetActionDelegate replyToTweet:[self.tweet actualTweet] sender:self];
+}
+
+- (IBAction)onRetweetButton:(id)sender {
+    Tweet *actualTweet = [self.tweet actualTweet];
+    if (actualTweet.isRetweeted) {
+        // if the tweet was already retweeted by this user, do nothing
+        return;
+    }
+    
+    [self.tweetActionDelegate retweetTweet:actualTweet sender:self];
+    [self.retweetButton setImage:[self imageForAction:@"retweet" on:YES] forState:UIControlStateNormal];
+    self.retweetButton.enabled = NO;
+}
+
+- (IBAction)onFavoriteButton:(id)sender {
+    Tweet *actualTweet = [self.tweet actualTweet];
+    BOOL wasFavorited = actualTweet.isFavorited;
+    [self.tweetActionDelegate favoriteForTweet:actualTweet sender:self];
+    [self.favoriteButton setImage:[self imageForAction:@"favorite" on:!wasFavorited] forState:UIControlStateNormal];
+}
+
+- (UIImage *)imageForAction:(NSString *)action on:(BOOL)on {
+    NSString *suffix = @"default";
+    if (on) {
+        suffix = @"on";
+    }
+    return [UIImage imageNamed:[NSString stringWithFormat:@"%@-%@", action, suffix]];
 }
 
 /*

@@ -62,6 +62,7 @@
 		EB85E9461A9A9014004BCCF3 /* TweetDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetDetailViewController.h; sourceTree = "<group>"; };
 		EB85E9471A9A9014004BCCF3 /* TweetDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TweetDetailViewController.m; sourceTree = "<group>"; };
 		EB85E9481A9A9014004BCCF3 /* TweetDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TweetDetailViewController.xib; sourceTree = "<group>"; };
+		EB85E94B1A9AC4DE004BCCF3 /* TweetActionDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TweetActionDelegate.h; sourceTree = "<group>"; };
 		EBD41DE51A9470B20002BDA1 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		EBD41DE61A9470B20002BDA1 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		EBD41DE71A9470B20002BDA1 /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -136,6 +137,7 @@
 		EB3264751A946FAE00EE6C0E /* Twitter */ = {
 			isa = PBXGroup;
 			children = (
+				EB85E94C1A9ACF79004BCCF3 /* Protocols */,
 				EBD41DF11A9481D50002BDA1 /* Models */,
 				EBD41DEE1A9471360002BDA1 /* API */,
 				EB6EDC361A97143A00CEB9F9 /* Views */,
@@ -184,6 +186,14 @@
 				EB6EDC331A96EBCF00CEB9F9 /* TweetCell.xib */,
 			);
 			name = Views;
+			sourceTree = "<group>";
+		};
+		EB85E94C1A9ACF79004BCCF3 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				EB85E94B1A9AC4DE004BCCF3 /* TweetActionDelegate.h */,
+			);
+			name = Protocols;
 			sourceTree = "<group>";
 		};
 		EBD41DEA1A9471160002BDA1 /* View Controllers */ = {

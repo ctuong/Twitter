@@ -29,6 +29,9 @@
         if (dictionary[@"retweeted_status"]) {
             self.retweetedStatus = [[Tweet alloc] initWithDictionary:dictionary[@"retweeted_status"]];
         }
+        
+        self.favorited = [dictionary[@"favorited"] boolValue];
+        self.retweeted = [dictionary[@"retweeted"] boolValue];
     }
     
     return self;
@@ -42,6 +45,13 @@
     }
     
     return tweets;
+}
+
+- (Tweet *)actualTweet {
+    if (self.retweetedStatus) {
+        return self.retweetedStatus;
+    }
+    return self;
 }
 
 @end

@@ -14,8 +14,9 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "NewTweetViewController.h"
 #import "TweetDetailViewController.h"
+#import "TweetActionDelegate.h"
 
-@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate>
+@interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate, TweetActionDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *tweets;
@@ -77,6 +78,7 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
     
     cell.tweet = self.tweets[indexPath.row];
+    cell.tweetActionDelegate = self;
     
     return cell;
 }
@@ -89,6 +91,7 @@
     Tweet *tweet = self.tweets[indexPath.row];
     TweetDetailViewController *tdvc = [[TweetDetailViewController alloc] init];
     tdvc.tweet = tweet;
+    tdvc.tweetActionDelegate = self;
     
     [self.navigationController pushViewController:tdvc animated:YES];
 }
@@ -97,6 +100,54 @@
 
 - (void)newTweetViewController:(NewTweetViewController *)newTweetViewController didPostTweet:(Tweet *)tweet {
     // TODO implement for optional
+}
+
+#pragma mark - TweetActionDelegate methods
+
+- (void)favoriteForTweet:(Tweet *)tweet sender:(id)sender {
+    BOOL currentState = tweet.isFavorited;
+    
+    if (currentState) {
+        [[TwitterClient sharedInstance] unfavoriteTweet:tweet completion:^(Tweet *returnedTweet, NSError *error) {
+            if (error) {
+                // change the favorited status of the tweet back to YES
+                tweet.favorited = YES;
+            }
+        }];
+    } else {
+        [[TwitterClient sharedInstance] favoriteTweet:tweet completion:^(Tweet *returnedTweet, NSError *error) {
+            if (error) {
+                // change the favorited status of the tweet back to NO
+                tweet.favorited = NO;
+            }
+        }];
+    }
+    
+    tweet.favorited = !currentState;
+}
+
+- (void)retweetTweet:(Tweet *)tweet sender:(id)sender {
+    [[TwitterClient sharedInstance] retweetTweet:tweet params:nil completion:^(Tweet *returnedTweet, NSError *error) {
+        if (error) {
+            // change the retweeted status of the tweet back to NO
+            tweet.retweeted = NO;
+        }
+    }];
+    
+    tweet.retweeted = YES;
+}
+
+- (void)replyToTweet:(Tweet *)tweet sender:(id)sender {
+    NewTweetViewController *ntvc = [[NewTweetViewController alloc] init];
+    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:ntvc];
+    ntvc.delegate = self;
+    ntvc.inReplyToTweet = tweet;
+    
+    if ([sender respondsToSelector:@selector(presentViewController:animated:completion:)]) {
+        [sender presentViewController:nvc animated:YES completion:nil];
+    } else {
+        [self presentViewController:nvc animated:YES completion:nil];
+    }
 }
 
 #pragma mark - Private methods

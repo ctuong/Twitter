@@ -18,8 +18,13 @@
 @property (nonatomic, strong) NSNumber *favoriteCount;
 @property (nonatomic, strong) NSNumber *retweetCount;
 @property (nonatomic, strong) Tweet *retweetedStatus;
+@property (nonatomic, assign, getter=isFavorited) BOOL favorited;
+@property (nonatomic, assign, getter=isRetweeted) BOOL retweeted;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 + (NSArray *)tweetsWithArray:(NSArray *)array;
+// if the tweet is a retweeted tweet, get the retweeted tweet
+// otherwise just return the tweet
+- (Tweet *)actualTweet;
 
 @end

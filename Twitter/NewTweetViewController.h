@@ -21,5 +21,6 @@
 @interface NewTweetViewController : UIViewController
 
 @property (weak, nonatomic) id<NewTweetViewControllerDelegate> delegate;
+@property (nonatomic, strong) Tweet *inReplyToTweet;
 
 @end

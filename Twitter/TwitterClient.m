@@ -14,6 +14,9 @@ NSString * const kTwitterAccessTokenPath = @"oauth/access_token";
 NSString * const kTwitterUserVerifyCredentialsPath = @"1.1/account/verify_credentials.json";
 NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
 NSString * const kTwitterPostTweetPath = @"1.1/statuses/update.json";
+NSString * const kTwitterRetweetPath = @"1.1/statuses/retweet/%lld.json";
+NSString * const kTwitterFavoriteCreatePath = @"1.1/favorites/create.json";
+NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
 
 @interface TwitterClient ()
 
@@ -85,6 +88,36 @@ NSString * const kTwitterPostTweetPath = @"1.1/statuses/update.json";
     [self POST:kTwitterPostTweetPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         Tweet *tweet = [[Tweet alloc] initWithDictionary:responseObject];
         completion(tweet, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)retweetTweet:(Tweet *)tweet params:(NSDictionary *)params completion:(void (^)(Tweet *tweet, NSError *error))completion {
+    NSString *path = [NSString stringWithFormat:kTwitterRetweetPath, tweet.tweetId];
+    [self POST:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Tweet *retweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(retweet, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)favoriteTweet:(Tweet *)tweet completion:(void (^)(Tweet *tweet, NSError *error))completion {
+    NSDictionary *params = @{@"id" : @(tweet.tweetId)};
+    [self POST:kTwitterFavoriteCreatePath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Tweet *returnedTweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(returnedTweet, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)unfavoriteTweet:(Tweet *)tweet completion:(void (^)(Tweet *tweet, NSError *error))completion {
+    NSDictionary *params = @{@"id" : @(tweet.tweetId)};
+    [self POST:kTwitterFavoriteDestroyPath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        Tweet *returnedTweet = [[Tweet alloc] initWithDictionary:responseObject];
+        completion(returnedTweet, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         completion(nil, error);
     }];

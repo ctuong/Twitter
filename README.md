@@ -27,7 +27,7 @@ You must create a config.plist file with the keys `twitterConsumerKey` and `twit
 - [x] Retweeting and favoriting should increment the retweet and favorite count.
 - [x] User can unfavorite and decrement favorite count.
 - [x] Replies should be prefixed with the username and the reply_id should be set when posting the tweet.
-- [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
+- [x] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client.
 
 ### Walkthrough
 

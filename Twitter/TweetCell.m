@@ -80,6 +80,12 @@
     }
     
     [self formatTweetTimeLabel];
+    
+    // add observers to automatically update favorite and retweet count
+    if (actualTweet.tweetId > 0) {
+        [actualTweet addObserver:self forKeyPath:@"favorited" options:NSKeyValueObservingOptionNew context:NULL];
+        [actualTweet addObserver:self forKeyPath:@"retweeted" options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
 
 - (IBAction)onReplyButton:(id)sender {
@@ -142,6 +148,15 @@
 - (void)removeConstraintsForView:(UIView *)view {
     for (NSLayoutConstraint *constraint in view.constraints) {
         constraint.active = NO;
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    Tweet *tweet = (Tweet *)object;
+    if ([keyPath isEqualToString:@"favorited"]) {
+        [self.favoriteButton setBackgroundImage:[self imageForAction:@"favorite" on:tweet.isFavorited] forState:UIControlStateNormal];
+    } else if ([keyPath isEqualToString:@"retweeted"]) {
+        [self.retweetButton setBackgroundImage:[self imageForAction:@"retweet" on:tweet.isRetweeted] forState:UIControlStateNormal];
     }
 }
 

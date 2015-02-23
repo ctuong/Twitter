@@ -47,6 +47,20 @@
     return tweets;
 }
 
++ (Tweet *)placeholderTweetWithText:(NSString *)text user:(User *)user {
+    Tweet *tweet = [[Tweet alloc] init];
+    tweet.tweetId = 0;
+    tweet.text = text;
+    tweet.author = user;
+    tweet.createdAt = [NSDate date];
+    tweet.favoriteCount = 0;
+    tweet.retweetCount = 0;
+    tweet.retweetedStatus = nil;
+    tweet.favorited = NO;
+    tweet.retweeted = NO;
+    return tweet;
+}
+
 - (Tweet *)actualTweet {
     if (self.retweetedStatus) {
         return self.retweetedStatus;

@@ -14,7 +14,7 @@
 @protocol NewTweetViewControllerDelegate <NSObject>
 
 @optional
-- (void)newTweetViewController:(NewTweetViewController *)newTweetViewController didPostTweet:(Tweet *)tweet;
+- (void)newTweetViewController:(NewTweetViewController *)newTweetViewController didPostTweet:(NSString *)tweetText;
 
 @end
 

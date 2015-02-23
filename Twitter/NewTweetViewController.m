@@ -94,23 +94,8 @@
 
 - (void)onTweetButton {
     NSString *tweetText = self.tweetTextView.text;
-    
-    NSDictionary *params = nil;
-    if (self.inReplyToTweet) {
-        params = [NSDictionary dictionaryWithObjects:@[@(self.inReplyToTweet.tweetId)] forKeys:@[@"in_reply_to_status_id"]];
-    }
-    
-    [[TwitterClient sharedInstance] postTweet:tweetText params:params completion:^(Tweet *tweet, NSError *error) {
-        if (error) {
-            NSLog(@"Error posting tweet: %@", error);
-        } else {
-            // TODO pass this tweet back to the delegate, where it should update the placeholder tweet with this one
-        }
-    }];
-    
     if ([self.delegate respondsToSelector:@selector(newTweetViewController:didPostTweet:)]) {
-        // TODO create a placeholder tweet
-        [self.delegate newTweetViewController:self didPostTweet:nil];
+        [self.delegate newTweetViewController:self didPostTweet:tweetText];
     }
     
     [self onCancelButton];

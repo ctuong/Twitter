@@ -22,6 +22,9 @@
 @property (nonatomic, strong) NSArray *tweets;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
 
+// set when a tweet is posted so we can display it immediately
+@property (nonatomic, strong) Tweet *placeholderTweet;
+
 @end
 
 @implementation TweetsViewController
@@ -32,6 +35,7 @@
     self.title = @"Home";
     
     self.tweets = [NSArray array];
+    self.placeholderTweet = nil;
     
     // place the table under the nav bar
     id topGuide = self.topLayoutGuide;
@@ -71,13 +75,27 @@
 #pragma mark - UITableViewDataSource methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    if (self.placeholderTweet) {
+        return self.tweets.count + 1;
+    }
     return self.tweets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell" forIndexPath:indexPath];
     
-    cell.tweet = self.tweets[indexPath.row];
+    NSInteger index = indexPath.row;
+    
+    if (self.placeholderTweet) {
+        if (index == 0) {
+            cell.tweet = self.placeholderTweet;
+        } else {
+            cell.tweet = self.tweets[index - 1];
+        }
+    } else {
+        cell.tweet = self.tweets[index];
+    }
+    
     cell.tweetActionDelegate = self;
     
     return cell;
@@ -98,8 +116,28 @@
 
 #pragma mark - NewTweetViewControllerDelegate methods
 
-- (void)newTweetViewController:(NewTweetViewController *)newTweetViewController didPostTweet:(Tweet *)tweet {
-    // TODO implement for optional
+- (void)newTweetViewController:(NewTweetViewController *)newTweetViewController didPostTweet:(NSString *)tweetText {
+    NSDictionary *params = nil;
+    if (newTweetViewController.inReplyToTweet) {
+        params = [NSDictionary dictionaryWithObjects:@[@(newTweetViewController.inReplyToTweet.tweetId)] forKeys:@[@"in_reply_to_status_id"]];
+    }
+    
+    [[TwitterClient sharedInstance] postTweet:tweetText params:params completion:^(Tweet *tweet, NSError *error) {
+        if (error) {
+            self.placeholderTweet = nil;
+            [self.tableView reloadData];
+            NSLog(@"Error posting tweet: %@", error);
+        } else {
+            // update the placeholder tweet with this one
+            self.placeholderTweet = nil;
+            NSArray *newTweet = @[tweet];
+            self.tweets = [newTweet arrayByAddingObjectsFromArray:self.tweets];
+            [self.tableView reloadData];
+        }
+    }];
+    
+    self.placeholderTweet = [Tweet placeholderTweetWithText:tweetText user:[User currentUser]];
+    [self.tableView reloadData];
 }
 
 #pragma mark - TweetActionDelegate methods
@@ -159,6 +197,7 @@
 - (void)onNewTweetButton {
     NewTweetViewController *ntvc = [[NewTweetViewController alloc] init];
     UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:ntvc];
+    ntvc.delegate = self;
     
     [self presentViewController:nvc animated:YES completion:nil];
 }

@@ -23,6 +23,7 @@
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 + (NSArray *)tweetsWithArray:(NSArray *)array;
++ (Tweet *)placeholderTweetWithText:(NSString *)text user:(User *)user;
 // if the tweet is a retweeted tweet, get the retweeted tweet
 // otherwise just return the tweet
 - (Tweet *)actualTweet;

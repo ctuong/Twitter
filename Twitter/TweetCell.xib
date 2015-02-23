@@ -54,7 +54,7 @@
                             <constraint firstAttribute="width" constant="16" id="hun-w2-qi7"/>
                             <constraint firstAttribute="height" constant="16" id="sBB-3f-76X"/>
                         </constraints>
-                        <state key="normal" image="retweet-default">
+                        <state key="normal" backgroundImage="retweet-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -67,7 +67,7 @@
                             <constraint firstAttribute="width" constant="16" id="HBI-dN-Z0o"/>
                             <constraint firstAttribute="height" constant="16" id="e37-jI-rBo"/>
                         </constraints>
-                        <state key="normal" image="favorite-default">
+                        <state key="normal" backgroundImage="favorite-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
@@ -80,7 +80,7 @@
                             <constraint firstAttribute="width" constant="16" id="OaD-On-kcI"/>
                             <constraint firstAttribute="height" constant="16" id="hRC-eE-lTe"/>
                         </constraints>
-                        <state key="normal" image="reply-default">
+                        <state key="normal" backgroundImage="reply-default">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>

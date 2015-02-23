@@ -64,12 +64,12 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ps2-OS-GQW">
-                    <rect key="frame" x="80" y="175" width="32" height="32"/>
+                    <rect key="frame" x="80" y="175" width="16" height="16"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="32" id="Mdu-di-bDb"/>
-                        <constraint firstAttribute="height" constant="32" id="b2m-Tm-B9T"/>
+                        <constraint firstAttribute="width" constant="16" id="Mdu-di-bDb"/>
+                        <constraint firstAttribute="height" constant="16" id="b2m-Tm-B9T"/>
                     </constraints>
-                    <state key="normal" image="retweet-default">
+                    <state key="normal" backgroundImage="retweet-default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -77,12 +77,12 @@
                     </connections>
                 </button>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLH-jh-gTA">
-                    <rect key="frame" x="16" y="175" width="32" height="32"/>
+                    <rect key="frame" x="16" y="175" width="16" height="16"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="G61-AZ-wqK"/>
-                        <constraint firstAttribute="width" constant="32" id="lRR-id-NyV"/>
+                        <constraint firstAttribute="height" constant="16" id="G61-AZ-wqK"/>
+                        <constraint firstAttribute="width" constant="16" id="lRR-id-NyV"/>
                     </constraints>
-                    <state key="normal" image="reply-default">
+                    <state key="normal" backgroundImage="reply-default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -104,7 +104,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rfD-RA-Vhf">
-                    <rect key="frame" x="8" y="215" width="304" height="1"/>
+                    <rect key="frame" x="8" y="199" width="304" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="fLd-Jc-I5a"/>
@@ -135,12 +135,12 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qKB-RI-C7O">
-                    <rect key="frame" x="144" y="175" width="32" height="32"/>
+                    <rect key="frame" x="144" y="175" width="16" height="16"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="32" id="Y43-jA-63M"/>
-                        <constraint firstAttribute="width" constant="32" id="ZN5-lP-UMo"/>
+                        <constraint firstAttribute="height" constant="16" id="Y43-jA-63M"/>
+                        <constraint firstAttribute="width" constant="16" id="ZN5-lP-UMo"/>
                     </constraints>
-                    <state key="normal" image="favorite-default">
+                    <state key="normal" backgroundImage="favorite-default">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
@@ -175,7 +175,7 @@
                 <constraint firstItem="EdZ-Fq-Dtr" firstAttribute="top" secondItem="EqN-cf-NsI" secondAttribute="bottom" constant="8" id="Fc2-Xl-Mp1"/>
                 <constraint firstItem="uLH-jh-gTA" firstAttribute="top" secondItem="cRJ-IC-KF6" secondAttribute="bottom" constant="8" id="GW2-8D-maQ"/>
                 <constraint firstItem="DGS-xy-16B" firstAttribute="top" relation="greaterThanOrEqual" secondItem="NGp-DM-Fey" secondAttribute="bottom" constant="8" id="I6J-Mo-u10"/>
-                <constraint firstItem="Ps2-OS-GQW" firstAttribute="leading" secondItem="uLH-jh-gTA" secondAttribute="trailing" constant="32" id="IH4-Kh-96t"/>
+                <constraint firstItem="Ps2-OS-GQW" firstAttribute="leading" secondItem="uLH-jh-gTA" secondAttribute="trailing" constant="48" id="IH4-Kh-96t"/>
                 <constraint firstItem="rfD-RA-Vhf" firstAttribute="top" secondItem="qKB-RI-C7O" secondAttribute="bottom" constant="8" id="IKr-Cp-zkn"/>
                 <constraint firstItem="9c6-Ag-g5v" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="IcN-Vw-IjP"/>
                 <constraint firstItem="0zx-C1-sPp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="Iro-YF-EqQ"/>
@@ -187,7 +187,7 @@
                 <constraint firstItem="ug7-Rv-6n5" firstAttribute="top" secondItem="0zx-C1-sPp" secondAttribute="bottom" constant="8" id="RVI-fZ-9AG"/>
                 <constraint firstAttribute="trailing" secondItem="EdZ-Fq-Dtr" secondAttribute="trailing" constant="8" id="Teg-bW-vT3"/>
                 <constraint firstItem="1jB-K3-eh1" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="8" id="ZXR-Lf-5KD"/>
-                <constraint firstItem="qKB-RI-C7O" firstAttribute="leading" secondItem="Ps2-OS-GQW" secondAttribute="trailing" constant="32" id="Ztj-9i-L5e"/>
+                <constraint firstItem="qKB-RI-C7O" firstAttribute="leading" secondItem="Ps2-OS-GQW" secondAttribute="trailing" constant="48" id="Ztj-9i-L5e"/>
                 <constraint firstItem="g3F-3P-UJ4" firstAttribute="leading" secondItem="glB-Ju-5wF" secondAttribute="trailing" constant="8" id="bID-nG-ECr"/>
                 <constraint firstItem="EqN-cf-NsI" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="11" placeholder="YES" id="bjU-AZ-yrE"/>
                 <constraint firstItem="EqN-cf-NsI" firstAttribute="leading" secondItem="L9C-eA-fR8" secondAttribute="trailing" constant="8" id="cJ6-ag-LWB"/>

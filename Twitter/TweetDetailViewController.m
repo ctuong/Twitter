@@ -76,7 +76,7 @@
     
     [self.favoriteButton setImage:[self imageForAction:@"favorite" on:actualTweet.isFavorited] forState:UIControlStateNormal];
     [self.retweetButton setImage:[self imageForAction:@"retweet" on:actualTweet.isRetweeted] forState:UIControlStateNormal];
-    if (actualTweet.isRetweeted) {
+    if (actualTweet.isRetweeted || [actualTweet authorIsUser:[User currentUser]]) {
         self.retweetButton.enabled = NO;
     }
     

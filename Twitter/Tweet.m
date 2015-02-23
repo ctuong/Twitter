@@ -72,4 +72,8 @@
     }
 }
 
+- (BOOL)authorIsUser:(User *)user {
+    return self.author.userId == user.userId;
+}
+
 @end

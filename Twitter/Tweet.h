@@ -32,4 +32,6 @@
 // retweet this tweet, setting the retweet count as well
 - (void)setRetweetedState:(BOOL)state;
 
+- (BOOL)authorIsUser:(User *)user;
+
 @end

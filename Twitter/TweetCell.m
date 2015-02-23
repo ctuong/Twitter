@@ -65,6 +65,10 @@
     NSURL *profileImageURL = [NSURL URLWithString:actualTweet.author.profileImageURL];
     [self.userImageView setImageWithURL:profileImageURL];
     
+    if (actualTweet.isRetweeted || [actualTweet authorIsUser:[User currentUser]]) {
+        self.retweetButton.enabled = NO;
+    }
+    
     [self formatTweetTimeLabel];
 }
 

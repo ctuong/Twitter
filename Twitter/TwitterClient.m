@@ -13,6 +13,7 @@ NSString * const kTwitterRequestTokenPath = @"oauth/request_token";
 NSString * const kTwitterAccessTokenPath = @"oauth/access_token";
 NSString * const kTwitterUserVerifyCredentialsPath = @"1.1/account/verify_credentials.json";
 NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
+NSString * const kTwitterUserTimelinePath = @"1.1/statuses/user_timeline.json";
 NSString * const kTwitterPostTweetPath = @"1.1/statuses/update.json";
 NSString * const kTwitterRetweetPath = @"1.1/statuses/retweet/%lld.json";
 NSString * const kTwitterFavoriteCreatePath = @"1.1/favorites/create.json";
@@ -62,6 +63,8 @@ NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
         [self.requestSerializer saveAccessToken:accessToken];
         
         [self GET:kTwitterUserVerifyCredentialsPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"%@", responseObject);
+            
             User *user = [[User alloc] initWithDictionary:responseObject];
             [User setCurrentUser:user];
             self.loginCompletion(user, nil);
@@ -77,6 +80,21 @@ NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
 
 - (void)homeTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
     [self GET:kTwitterHomeTimelinePath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        completion(tweets, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)userTimelineForUser:(User *)user params:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
+    NSDictionary *defaults = @{@"user_id": @(user.userId)};
+    NSMutableDictionary *allParams = [defaults mutableCopy];
+    if (params) {
+        [allParams addEntriesFromDictionary:params];
+    }
+    
+    [self GET:kTwitterUserTimelinePath parameters:allParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

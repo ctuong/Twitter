@@ -34,12 +34,16 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1jB-K3-eh1">
+                <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1jB-K3-eh1">
                     <rect key="frame" x="8" y="32" width="48" height="48"/>
+                    <gestureRecognizers/>
                     <constraints>
                         <constraint firstAttribute="height" constant="48" id="AJn-hU-IsU"/>
                         <constraint firstAttribute="width" constant="48" id="oBi-Rj-69J"/>
                     </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="dSy-8Q-Pts" appends="YES" id="odB-aO-3cX"/>
+                    </connections>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="Calvin Tuong" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EdZ-Fq-Dtr">
                     <rect key="frame" x="64" y="31" width="248" height="17"/>
@@ -212,6 +216,11 @@
             </constraints>
             <point key="canvasLocation" x="433" y="229"/>
         </view>
+        <tapGestureRecognizer id="dSy-8Q-Pts">
+            <connections>
+                <action selector="onTapGesture:" destination="-1" id="ora-3Q-etz"/>
+            </connections>
+        </tapGestureRecognizer>
     </objects>
     <resources>
         <image name="favorite-default" width="16" height="16"/>

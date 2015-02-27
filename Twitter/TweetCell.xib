@@ -25,6 +25,7 @@
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="NCT-jj-Hx1">
                         <rect key="frame" x="8" y="32" width="50" height="50"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="width" constant="50" id="SrV-Rt-OTp"/>
                             <constraint firstAttribute="height" constant="50" id="d87-WS-1Ni"/>

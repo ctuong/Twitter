@@ -30,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *retweetedImageHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *retweetedLabelHeightConstraint;
 
+- (IBAction)onTapGesture:(UITapGestureRecognizer *)sender;
 
 @end
 
@@ -39,6 +40,10 @@
     // Initialization code
     
     self.tweetLabel.preferredMaxLayoutWidth = self.tweetLabel.frame.size.width;
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapGesture:)];
+    [self.userImageView addGestureRecognizer:tapGesture];
+    self.userImageView.userInteractionEnabled = YES;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -80,12 +85,6 @@
     }
     
     [self formatTweetTimeLabel];
-    
-    // add observers to automatically update favorite and retweet count
-    if (actualTweet.tweetId > 0) {
-        [actualTweet addObserver:self forKeyPath:@"favorited" options:NSKeyValueObservingOptionNew context:NULL];
-        [actualTweet addObserver:self forKeyPath:@"retweeted" options:NSKeyValueObservingOptionNew context:NULL];
-    }
 }
 
 - (IBAction)onReplyButton:(id)sender {
@@ -151,12 +150,11 @@
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    Tweet *tweet = (Tweet *)object;
-    if ([keyPath isEqualToString:@"favorited"]) {
-        [self.favoriteButton setBackgroundImage:[self imageForAction:@"favorite" on:tweet.isFavorited] forState:UIControlStateNormal];
-    } else if ([keyPath isEqualToString:@"retweeted"]) {
-        [self.retweetButton setBackgroundImage:[self imageForAction:@"retweet" on:tweet.isRetweeted] forState:UIControlStateNormal];
+- (IBAction)onTapGesture:(UITapGestureRecognizer *)sender {
+    if (sender.view == self.userImageView) {
+        if ([self.tweetActionDelegate respondsToSelector:@selector(userImageViewTappedForUser:)]) {
+            [self.tweetActionDelegate userImageViewTappedForUser:self.tweet.author];
+        }
     }
 }
 

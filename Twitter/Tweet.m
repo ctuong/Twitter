@@ -71,18 +71,18 @@
 - (void)setFavoritedState:(BOOL)state {
     self.favorited = state;
     if (state) {
-        self.favoriteCount += 1;
+        _favoriteCount = self.favoriteCount + 1;
     } else {
-        self.favoriteCount -= 1;
+        _favoriteCount = self.favoriteCount - 1;
     }
 }
 
 - (void)setRetweetedState:(BOOL)state {
     self.retweeted = state;
     if (state) {
-        self.retweetCount += 1;
+        _retweetCount = self.retweetCount + 1;
     } else {
-        self.retweetCount -= 1;
+        _retweetCount = self.retweetCount - 1;
     }
 }
 

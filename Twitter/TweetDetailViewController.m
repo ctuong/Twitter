@@ -9,6 +9,7 @@
 #import "TweetDetailViewController.h"
 #import <UIImageView+AFNetworking.h>
 #import "TwitterClient.h"
+#import "ProfileViewController.h"
 
 @interface TweetDetailViewController ()
 
@@ -29,6 +30,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *usernameLabelTopConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *userImageViewTopConstraint;
 
+- (IBAction)onTapGesture:(UITapGestureRecognizer *)sender;
 
 @end
 
@@ -37,6 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    self.title = @"Tweet";
     
     [self initElementsFromTweet:self.tweet];
     
@@ -164,14 +168,13 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)onTapGesture:(UITapGestureRecognizer *)sender {
+    if (sender.view == self.userImageView) {
+        ProfileViewController *pvc = [[ProfileViewController alloc] init];
+        pvc.user = self.tweet.author;
+        
+        [self.navigationController pushViewController:pvc animated:YES];
+    }
 }
-*/
 
 @end

@@ -15,6 +15,7 @@
 #import "NewTweetViewController.h"
 #import "TweetDetailViewController.h"
 #import "TweetActionDelegate.h"
+#import "ProfileViewController.h"
 #import <UIScrollView+SVInfiniteScrolling.h>
 
 @interface TweetsViewController () <UITableViewDataSource, UITableViewDelegate, NewTweetViewControllerDelegate, TweetActionDelegate>
@@ -193,6 +194,13 @@
     }
 }
 
+- (void)userImageViewTappedForUser:(User *)user {
+    ProfileViewController *pvc = [[ProfileViewController alloc] init];
+    pvc.user = user;
+    
+    [self.navigationController pushViewController:pvc animated:YES];
+}
+
 #pragma mark - Private methods
 
 - (void)onLogout {
@@ -213,6 +221,9 @@
     [[TwitterClient sharedInstance] homeTimelineWithParams:nil completion:^(NSArray *tweets, NSError *error) {
         if (!error) {
             self.tweets = tweets;
+            
+            [self addObserverForTweets:self.tweets];
+            
             [self.tableView reloadData];
             [SVProgressHUD dismiss];
         } else {
@@ -231,6 +242,9 @@
     [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
         // put the new tweets at the beginning of the existing tweets list
         self.tweets = [tweets arrayByAddingObjectsFromArray:self.tweets];
+        
+        [self addObserverForTweets:self.tweets];
+        
         [self.refreshControl endRefreshing];
         [self.tableView reloadData];
     }];
@@ -245,20 +259,27 @@
     }
     
     [[TwitterClient sharedInstance] homeTimelineWithParams:params completion:^(NSArray *tweets, NSError *error) {
+        [self addObserverForTweets:tweets];
+        
         self.tweets = [self.tweets arrayByAddingObjectsFromArray:tweets];
         [self.tableView reloadData];
         [[self.tableView infiniteScrollingView] stopAnimating];
     }];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)addObserverForTweets:(NSArray *)tweets {
+    for (Tweet *tweet in tweets) {
+        [tweet addObserver:self forKeyPath:@"favorited" options:NSKeyValueObservingOptionNew context:NULL];
+        [tweet addObserver:self forKeyPath:@"retweeted" options:NSKeyValueObservingOptionNew context:NULL];
+    }
 }
-*/
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    Tweet *tweet = (Tweet *)object;
+    NSInteger index = [self.tweets indexOfObject:tweet];
+    
+    // reload that cell
+    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+}
 
 @end

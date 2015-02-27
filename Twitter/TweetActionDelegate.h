@@ -15,4 +15,7 @@
 - (void)retweetTweet:(Tweet *)tweet sender:(id)sender;
 - (void)replyToTweet:(Tweet *)tweet sender:(id)sender;
 
+@optional
+- (void)userImageViewTappedForUser:(User *)user;
+
 @end

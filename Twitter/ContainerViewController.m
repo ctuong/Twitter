@@ -10,14 +10,21 @@
 #import "TweetsViewController.h"
 #import "ProfileViewController.h"
 #import "MenuViewController.h"
+#import "User.h"
 
-@interface ContainerViewController ()
+@interface ContainerViewController () <MenuViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *contentView;
 @property (weak, nonatomic) IBOutlet UIView *menuView;
+
+@property (nonatomic, strong) UINavigationController *profileViewNavigationController;
 @property (nonatomic, strong) ProfileViewController *profileViewController;
+@property (nonatomic, strong) UINavigationController *tweetsViewNavigationController;
 @property (nonatomic, strong) TweetsViewController *tweetsViewController;
+@property (nonatomic, strong) UINavigationController *menuViewNavigationController;
 @property (nonatomic, strong) MenuViewController *menuViewController;
+
+@property (nonatomic, strong) UIViewController *currentContentViewController;
 
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
@@ -37,31 +44,40 @@
     // Do any additional setup after loading the view from its nib.
     
     self.profileViewController = [[ProfileViewController alloc] init];
+    self.profileViewController.user = [User currentUser];
     self.tweetsViewController = [[TweetsViewController alloc] init];
     self.menuViewController = [[MenuViewController alloc] init];
+    self.menuViewController.delegate = self;
     
     // initialize the content view
-    UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:self.tweetsViewController];
+    self.tweetsViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.tweetsViewController];
     
     // nav bar settings
-    nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+    self.tweetsViewNavigationController.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
     // make all text white
     NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
     [[UINavigationBar appearance] setTitleTextAttributes:attributes];
     
-    [self addChildViewController:nvc];
-    nvc.view.frame = self.contentView.frame;
-    [self.contentView addSubview:nvc.view];
-    [nvc didMoveToParentViewController:self];
+    [self addChildViewController:self.tweetsViewNavigationController];
+    self.tweetsViewNavigationController.view.frame = self.contentView.frame;
+    [self.contentView addSubview:self.tweetsViewNavigationController.view];
+    [self.tweetsViewNavigationController didMoveToParentViewController:self];
+    self.currentContentViewController = self.tweetsViewNavigationController;
+    
+    // initalize the profile view
+    self.profileViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.profileViewController];
+    
+    // nav bar settings
+    self.profileViewNavigationController.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
     
     // initalize the menu view
-    UINavigationController *menuNVC = [[UINavigationController alloc] initWithRootViewController:self.menuViewController];
-    menuNVC.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+    self.menuViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.menuViewController];
+    self.menuViewNavigationController.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
     
-    [self addChildViewController:menuNVC];
-    menuNVC.view.frame = self.menuView.frame;
-    [self.menuView addSubview:menuNVC.view];
-    [menuNVC didMoveToParentViewController:self];
+    [self addChildViewController:self.menuViewNavigationController];
+    self.menuViewNavigationController.view.frame = self.menuView.frame;
+    [self.menuView addSubview:self.menuViewNavigationController.view];
+    [self.menuViewNavigationController didMoveToParentViewController:self];
     
     self.menuViewOpen = NO;
     
@@ -71,6 +87,48 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - MenuViewControllerDelegate methods
+
+- (void)profileViewSelected {
+    [self removeCurrentContentViewController];
+    [self animateCloseMenuView];
+    
+    [self addChildViewController:self.profileViewNavigationController];
+    self.profileViewNavigationController.view.frame = self.contentView.frame;
+    [self.contentView addSubview:self.profileViewNavigationController.view];
+    [self.profileViewNavigationController didMoveToParentViewController:self];
+    self.currentContentViewController = self.profileViewNavigationController;
+}
+
+- (void)homeTimelineViewSelected {
+    [self removeCurrentContentViewController];
+    [self animateCloseMenuView];
+    
+    [self addChildViewController:self.tweetsViewNavigationController];
+    self.tweetsViewNavigationController.view.frame = self.contentView.frame;
+    [self.contentView addSubview:self.tweetsViewNavigationController.view];
+    [self.tweetsViewNavigationController didMoveToParentViewController:self];
+    self.currentContentViewController = self.tweetsViewNavigationController;
+}
+
+- (void)mentionsViewSelected {
+//    [self removeCurrentContentViewController];
+//    [self animateCloseMenuView];
+}
+
+- (void)signOutViewSelected {
+    [self removeCurrentContentViewController];
+    [User logout];
+}
+
+#pragma mark - Private methods
+
+- (void)removeCurrentContentViewController {
+    [self.currentContentViewController willMoveToParentViewController:nil];
+    [self.currentContentViewController.view removeFromSuperview];
+    [self.currentContentViewController removeFromParentViewController];
 }
 
 - (IBAction)onPanGesture:(UIPanGestureRecognizer *)sender {
@@ -97,6 +155,9 @@
         } else if ([sender velocityInView:self.view].x < 0 && self.menuViewOpen == YES) {
             // moving left and menu view is open; collapse the menu view
             [self openMenuView:NO];
+        } else if ([sender velocityInView:self.view].x == 0) {
+            // if for some reason the gesture ended while still, make the state of the menu change
+            [self openMenuView:!self.menuViewOpen];
         }
         [self.view needsUpdateConstraints];
         
@@ -107,16 +168,20 @@
 }
 
 - (void)onTapGesture:(UITapGestureRecognizer *)sender {
+    [self animateCloseMenuView];
+}
+
+- (void)animateCloseMenuView {
     if (self.menuViewOpen == YES) {
         [self openMenuView:NO];
         [self.view needsUpdateConstraints];
-        [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [UIView animateWithDuration:0.7 delay:0 usingSpringWithDamping:1 initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {}];
     }
 }
 
-// set the menu view to be open
+// set the menu view to be open or closed
 - (void)openMenuView:(BOOL)open {
     if (open) {
         CGSize menuViewSize = self.menuViewController.view.frame.size;

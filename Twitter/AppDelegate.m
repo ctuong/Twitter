@@ -32,9 +32,6 @@
     if (currentUser) {
         ContainerViewController *cvc = [[ContainerViewController alloc] init];
         self.window.rootViewController = cvc;
-        
-//        TweetsViewController *tvc = [[TweetsViewController alloc] init];
-//        nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
     } else {
         LoginViewController *lvc = [[LoginViewController alloc] init];
         nvc = [[UINavigationController alloc] initWithRootViewController:lvc];

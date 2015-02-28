@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class MenuViewController;
+
+@protocol MenuViewControllerDelegate <NSObject>
+
+- (void)profileViewSelected;
+- (void)homeTimelineViewSelected;
+- (void)mentionsViewSelected;
+- (void)signOutViewSelected;
+
+@end
+
 @interface MenuViewController : UIViewController
+
+@property (weak, nonatomic) id<MenuViewControllerDelegate> delegate;
 
 @end

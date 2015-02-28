@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "TwitterClient.h"
 #import "TweetsViewController.h"
+#import "ContainerViewController.h"
 
 @interface LoginViewController ()
 
@@ -31,16 +32,8 @@
 - (IBAction)onLogin:(id)sender {
     [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
         if (user) {
-            // Modally present the tweets view
-            TweetsViewController *tvc = [[TweetsViewController alloc] init];
-            UINavigationController *nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
-            // nav bar settings
-            nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
-            // make all text white
-            NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
-            [[UINavigationBar appearance] setTitleTextAttributes:attributes];
-            
-            [self presentViewController:nvc animated:YES completion:nil];
+            ContainerViewController *cvc = [[ContainerViewController alloc] init];
+            [self presentViewController:cvc animated:YES completion:nil];
         } else {
             NSLog(@"Error logging in: %@", error);
         }

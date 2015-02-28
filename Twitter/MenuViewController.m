@@ -41,13 +41,13 @@
     // show the proper view, collapse the menu
     // probably delegate
     if (sender.view == self.profileView) {
-        
+        [self.delegate profileViewSelected];
     } else if (sender.view == self.homeView) {
-        
+        [self.delegate homeTimelineViewSelected];
     } else if (sender.view == self.mentionsView) {
-        
+        [self.delegate mentionsViewSelected];
     } else if (sender.view == self.signOutView) {
-        
+        [self.delegate signOutViewSelected];
     }
 }
 

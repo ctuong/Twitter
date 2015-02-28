@@ -24,6 +24,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    // place under the nav bar
+    id topGuide = self.topLayoutGuide;
+    UIView *profileView = self.profileView;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(profileView, topGuide);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[profileView]" options:0 metrics:nil views:viewsDictionary]];
 }
 
 - (void)didReceiveMemoryWarning {

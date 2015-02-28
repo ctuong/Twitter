@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ContainerViewController">
+            <connections>
+                <outlet property="contentView" destination="Nwi-eo-jfd" id="II8-QI-Mtg"/>
+                <outlet property="contentViewLeadingConstraint" destination="Gga-KP-xhd" id="AOH-dX-hbO"/>
+                <outlet property="contentViewTrailingConstraint" destination="YKV-MK-Afl" id="euP-ns-V1b"/>
+                <outlet property="menuView" destination="vfs-uJ-vCl" id="949-sL-JMm"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vfs-uJ-vCl" userLabel="MenuView">
+                    <rect key="frame" x="0.0" y="0.0" width="250" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="250" id="ga7-5S-uPT"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nwi-eo-jfd" userLabel="ContentView">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="dFL-ZH-OoU" appends="YES" id="COw-2G-VX4"/>
+                    </connections>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vfs-uJ-vCl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="9CL-gO-Ft3"/>
+                <constraint firstItem="vfs-uJ-vCl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="9pz-1x-mf4"/>
+                <constraint firstItem="Nwi-eo-jfd" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Gga-KP-xhd"/>
+                <constraint firstAttribute="bottom" secondItem="vfs-uJ-vCl" secondAttribute="bottom" id="WNh-rP-fwY"/>
+                <constraint firstAttribute="trailing" secondItem="Nwi-eo-jfd" secondAttribute="trailing" id="YKV-MK-Afl"/>
+                <constraint firstAttribute="bottom" secondItem="Nwi-eo-jfd" secondAttribute="bottom" id="p3t-QE-rby"/>
+                <constraint firstItem="Nwi-eo-jfd" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="sRN-pG-9QN"/>
+            </constraints>
+            <point key="canvasLocation" x="433" y="386"/>
+        </view>
+        <panGestureRecognizer minimumNumberOfTouches="1" id="dFL-ZH-OoU">
+            <connections>
+                <action selector="onPanGesture:" destination="-1" id="1rB-bh-ZJQ"/>
+            </connections>
+        </panGestureRecognizer>
+    </objects>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

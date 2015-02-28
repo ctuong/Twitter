@@ -12,6 +12,7 @@
 #import "TwitterClient.h"
 #import "User.h"
 #import "Tweet.h"
+#import "ContainerViewController.h"
 
 @interface AppDelegate ()
 
@@ -29,20 +30,24 @@
     UINavigationController *nvc;
     User *currentUser = [User currentUser];
     if (currentUser) {
-        TweetsViewController *tvc = [[TweetsViewController alloc] init];
-        nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
+        ContainerViewController *cvc = [[ContainerViewController alloc] init];
+        self.window.rootViewController = cvc;
+        
+//        TweetsViewController *tvc = [[TweetsViewController alloc] init];
+//        nvc = [[UINavigationController alloc] initWithRootViewController:tvc];
     } else {
         LoginViewController *lvc = [[LoginViewController alloc] init];
         nvc = [[UINavigationController alloc] initWithRootViewController:lvc];
+        
+        // nav bar settings
+        nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+        // make all text white
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
+        [[UINavigationBar appearance] setTitleTextAttributes:attributes];
+        
+        self.window.rootViewController = nvc;
     }
     
-    // nav bar settings
-    nvc.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
-    // make all text white
-    NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
-    [[UINavigationBar appearance] setTitleTextAttributes:attributes];
-    
-    self.window.rootViewController = nvc;
     [self.window makeKeyAndVisible];
     return YES;
 }

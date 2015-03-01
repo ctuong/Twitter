@@ -48,7 +48,7 @@
     
     self.profileViewController = [[ProfileViewController alloc] init];
     self.profileViewController.user = [User currentUser];
-    self.tweetsViewController = [[TweetsViewController alloc] init];
+    self.tweetsViewController = [[TweetsViewController alloc] initWithNibName:@"TweetListViewController" bundle:[NSBundle mainBundle]];
     self.mentionsViewController = [[MentionsViewController alloc] initWithNibName:@"TweetListViewController" bundle:[NSBundle mainBundle]];
     self.menuViewController = [[MenuViewController alloc] init];
     self.menuViewController.delegate = self;

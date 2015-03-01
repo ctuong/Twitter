@@ -2,12 +2,12 @@
 //  TweetsViewController.h
 //  Twitter
 //
-//  Created by Calvin Tuong on 2/18/15.
+//  Created by Calvin Tuong on 2/28/15.
 //  Copyright (c) 2015 Calvin Tuong. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "TweetListViewController.h"
 
-@interface TweetsViewController : UIViewController
+@interface TweetsViewController : TweetListViewController
 
 @end

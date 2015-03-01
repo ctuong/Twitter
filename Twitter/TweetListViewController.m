@@ -17,12 +17,6 @@
     self.tweets = [NSArray array];
     self.placeholderTweet = nil;
     
-    // place the table under the nav bar
-//    id topGuide = self.topLayoutGuide;
-//    UITableView *tableView = self.tableView;
-//    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(tableView, topGuide);
-//    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[tableView]" options:0 metrics:nil views:viewsDictionary]];
-    
     // set up the table
     self.tableView.delegate = self;
     self.tableView.dataSource = self;

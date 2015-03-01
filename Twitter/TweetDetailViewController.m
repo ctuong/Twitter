@@ -122,16 +122,16 @@
         return;
     }
     
-    [self.tweetActionDelegate retweetTweet:actualTweet sender:self];
     [self.retweetButton setBackgroundImage:[self imageForAction:@"retweet" on:YES] forState:UIControlStateNormal];
     self.retweetButton.enabled = NO;
+    [self.tweetActionDelegate retweetTweet:actualTweet sender:self];
 }
 
 - (IBAction)onFavoriteButton:(id)sender {
     Tweet *actualTweet = [self.tweet actualTweet];
     BOOL wasFavorited = actualTweet.isFavorited;
-    [self.tweetActionDelegate favoriteForTweet:actualTweet sender:self];
     [self.favoriteButton setBackgroundImage:[self imageForAction:@"favorite" on:!wasFavorited] forState:UIControlStateNormal];
+    [self.tweetActionDelegate favoriteForTweet:actualTweet sender:self];
 }
 
 - (UIImage *)imageForAction:(NSString *)action on:(BOOL)on {

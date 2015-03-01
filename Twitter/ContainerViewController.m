@@ -9,6 +9,7 @@
 #import "ContainerViewController.h"
 #import "TweetsViewController.h"
 #import "ProfileViewController.h"
+#import "MentionsViewController.h"
 #import "MenuViewController.h"
 #import "User.h"
 
@@ -21,6 +22,8 @@
 @property (nonatomic, strong) ProfileViewController *profileViewController;
 @property (nonatomic, strong) UINavigationController *tweetsViewNavigationController;
 @property (nonatomic, strong) TweetsViewController *tweetsViewController;
+@property (nonatomic, strong) UINavigationController *mentionsViewNavigationController;
+@property (nonatomic, strong) MentionsViewController *mentionsViewController;
 @property (nonatomic, strong) UINavigationController *menuViewNavigationController;
 @property (nonatomic, strong) MenuViewController *menuViewController;
 
@@ -46,10 +49,11 @@
     self.profileViewController = [[ProfileViewController alloc] init];
     self.profileViewController.user = [User currentUser];
     self.tweetsViewController = [[TweetsViewController alloc] init];
+    self.mentionsViewController = [[MentionsViewController alloc] initWithNibName:@"TweetListViewController" bundle:[NSBundle mainBundle]];
     self.menuViewController = [[MenuViewController alloc] init];
     self.menuViewController.delegate = self;
     
-    // initialize the content view
+    // initialize the home timeline view as the content view
     self.tweetsViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.tweetsViewController];
     
     // nav bar settings
@@ -69,6 +73,12 @@
     
     // nav bar settings
     self.profileViewNavigationController.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
+    
+    // initialize the mentions view
+    self.mentionsViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.mentionsViewController];
+    
+    // nav bar settings
+    self.mentionsViewNavigationController.navigationBar.barTintColor = [UIColor colorWithRed:(float)64/255 green:(float)153/255 blue:1 alpha:1];
     
     // initalize the menu view
     self.menuViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.menuViewController];
@@ -94,28 +104,19 @@
 - (void)profileViewSelected {
     [self removeCurrentContentViewController];
     [self animateCloseMenuView];
-    
-    [self addChildViewController:self.profileViewNavigationController];
-    self.profileViewNavigationController.view.frame = self.contentView.frame;
-    [self.contentView addSubview:self.profileViewNavigationController.view];
-    [self.profileViewNavigationController didMoveToParentViewController:self];
-    self.currentContentViewController = self.profileViewNavigationController;
+    [self addCurrentContentViewController:self.profileViewNavigationController];
 }
 
 - (void)homeTimelineViewSelected {
     [self removeCurrentContentViewController];
     [self animateCloseMenuView];
-    
-    [self addChildViewController:self.tweetsViewNavigationController];
-    self.tweetsViewNavigationController.view.frame = self.contentView.frame;
-    [self.contentView addSubview:self.tweetsViewNavigationController.view];
-    [self.tweetsViewNavigationController didMoveToParentViewController:self];
-    self.currentContentViewController = self.tweetsViewNavigationController;
+    [self addCurrentContentViewController:self.tweetsViewNavigationController];
 }
 
 - (void)mentionsViewSelected {
-//    [self removeCurrentContentViewController];
-//    [self animateCloseMenuView];
+    [self removeCurrentContentViewController];
+    [self animateCloseMenuView];
+    [self addCurrentContentViewController:self.mentionsViewNavigationController];
 }
 
 - (void)signOutViewSelected {
@@ -129,6 +130,14 @@
     [self.currentContentViewController willMoveToParentViewController:nil];
     [self.currentContentViewController.view removeFromSuperview];
     [self.currentContentViewController removeFromParentViewController];
+}
+
+- (void)addCurrentContentViewController:(UIViewController *)viewController {
+    [self addChildViewController:viewController];
+    viewController.view.frame = self.contentView.frame;
+    [self.contentView addSubview:viewController.view];
+    [viewController didMoveToParentViewController:self];
+    self.currentContentViewController = viewController;
 }
 
 - (IBAction)onPanGesture:(UIPanGestureRecognizer *)sender {

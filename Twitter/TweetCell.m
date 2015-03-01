@@ -84,6 +84,9 @@
         self.retweetButton.enabled = YES;
     }
     
+    [self.retweetButton setBackgroundImage:[self imageForAction:@"retweet" on:actualTweet.isRetweeted] forState:UIControlStateNormal];
+    [self.favoriteButton setBackgroundImage:[self imageForAction:@"favorite" on:actualTweet.isFavorited] forState:UIControlStateNormal];
+    
     [self formatTweetTimeLabel];
 }
 
@@ -97,17 +100,13 @@
         // if the tweet was already retweeted by this user, do nothing
         return;
     }
-    
     [self.tweetActionDelegate retweetTweet:actualTweet sender:self];
-    [self.retweetButton setBackgroundImage:[self imageForAction:@"retweet" on:YES] forState:UIControlStateNormal];
-    self.retweetButton.enabled = NO;
+
 }
 
 - (IBAction)onFavoriteButton:(id)sender {
     Tweet *actualTweet = [self.tweet actualTweet];
-    BOOL wasFavorited = actualTweet.isFavorited;
     [self.tweetActionDelegate favoriteForTweet:actualTweet sender:self];
-    [self.favoriteButton setBackgroundImage:[self imageForAction:@"favorite" on:!wasFavorited] forState:UIControlStateNormal];
 }
 
 - (UIImage *)imageForAction:(NSString *)action on:(BOOL)on {
@@ -139,6 +138,10 @@
         labelText = [NSString stringWithFormat:@"%ldd", num];
     } else {
         // just print the date
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"M/d/yy";
+        
+        labelText = [formatter stringFromDate:createdAt];
     }
     
     self.tweetTimeLabel.text = labelText;

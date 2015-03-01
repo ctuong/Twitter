@@ -14,6 +14,7 @@ NSString * const kTwitterAccessTokenPath = @"oauth/access_token";
 NSString * const kTwitterUserVerifyCredentialsPath = @"1.1/account/verify_credentials.json";
 NSString * const kTwitterHomeTimelinePath = @"1.1/statuses/home_timeline.json";
 NSString * const kTwitterUserTimelinePath = @"1.1/statuses/user_timeline.json";
+NSString * const kTwitterMentionsTimelinePath = @"1.1/statuses/mentions_timeline.json";
 NSString * const kTwitterPostTweetPath = @"1.1/statuses/update.json";
 NSString * const kTwitterRetweetPath = @"1.1/statuses/retweet/%lld.json";
 NSString * const kTwitterFavoriteCreatePath = @"1.1/favorites/create.json";
@@ -93,6 +94,15 @@ NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
     }
     
     [self GET:kTwitterUserTimelinePath parameters:allParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSArray *tweets = [Tweet tweetsWithArray:responseObject];
+        completion(tweets, nil);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        completion(nil, error);
+    }];
+}
+
+- (void)mentionsTimelineWithParams:(NSDictionary *)params completion:(void (^)(NSArray *tweets, NSError *error))completion {
+    [self GET:kTwitterMentionsTimelinePath parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSArray *tweets = [Tweet tweetsWithArray:responseObject];
         completion(tweets, nil);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

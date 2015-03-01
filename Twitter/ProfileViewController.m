@@ -34,6 +34,14 @@
     
     self.title = @"Profile";
     
+    // place under nav bar
+    id topGuide = self.topLayoutGuide;
+    UIImageView *bannerImageView = self.bannerImageView;
+    UIImageView *profileImageView = self.profileImageView;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(bannerImageView, profileImageView, topGuide);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[bannerImageView]" options:0 metrics:nil views:viewsDictionary]];
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-126-[profileImageView]" options:0 metrics:nil views:viewsDictionary]];
+    
     [self initElementsFromUser:self.user];
     
     self.tweets = [NSArray array];
@@ -59,7 +67,7 @@
 }
 
 - (void)initElementsFromUser:(User*) user {
-    [self.bannerImageView setImageWithURL:[NSURL URLWithString:user.profileBackgroundImageURL]];
+    [self.bannerImageView setImageWithURL:[NSURL URLWithString:user.profileBannerURL]];
     [self.profileImageView setImageWithURL:[NSURL URLWithString:user.profileImageURL]];
     self.profileImageView.layer.cornerRadius = 3;
     self.profileImageView.clipsToBounds = YES;

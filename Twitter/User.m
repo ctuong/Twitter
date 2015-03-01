@@ -31,6 +31,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
         self.username = dictionary[@"screen_name"];
         self.profileImageURL = dictionary[@"profile_image_url"];
         self.profileBackgroundImageURL = dictionary[@"profile_background_image_url"];
+        self.profileBannerURL = dictionary[@"profile_banner_url"];
         self.tagline = dictionary[@"description"];
         self.tweetCount = [dictionary[@"statuses_count"] longValue];
         self.followingCount = [dictionary[@"friends_count"] longValue];

@@ -8,8 +8,11 @@
             <connections>
                 <outlet property="homeView" destination="O0K-m3-dMo" id="k78-hL-g2q"/>
                 <outlet property="mentionsView" destination="Ecf-SV-8jc" id="2La-Bo-Hjp"/>
+                <outlet property="nameLabel" destination="P5m-4I-kjP" id="Nxa-yE-RB9"/>
+                <outlet property="profileImageView" destination="5bS-wJ-2hX" id="1Ia-Uz-Hrx"/>
                 <outlet property="profileView" destination="vVF-OC-ITo" id="mRe-nS-LL0"/>
                 <outlet property="signOutView" destination="ifk-87-dKe" id="x4H-rE-ajn"/>
+                <outlet property="usernameLabel" destination="V6f-jb-yhf" id="3lr-Hy-bNE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

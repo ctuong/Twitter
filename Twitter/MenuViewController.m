@@ -7,6 +7,8 @@
 //
 
 #import "MenuViewController.h"
+#import "User.h"
+#import <UIImageView+AFNetworking.h>
 
 @interface MenuViewController ()
 
@@ -14,6 +16,10 @@
 @property (weak, nonatomic) IBOutlet UIView *homeView;
 @property (weak, nonatomic) IBOutlet UIView *mentionsView;
 @property (weak, nonatomic) IBOutlet UIView *signOutView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
 
 - (IBAction)onTapGesture:(UITapGestureRecognizer *)sender;
 
@@ -30,6 +36,15 @@
     UIView *profileView = self.profileView;
     NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(profileView, topGuide);
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[profileView]" options:0 metrics:nil views:viewsDictionary]];
+    
+    self.profileImageView.layer.cornerRadius = 3;
+    self.profileImageView.clipsToBounds = YES;
+    
+    User *user = [User currentUser];
+    NSString *profileImageURL = [user.profileImageURL stringByReplacingOccurrencesOfString:@"_normal" withString:@"_bigger"];
+    [self.profileImageView setImageWithURL:[NSURL URLWithString:profileImageURL]];
+    self.nameLabel.text = user.name;
+    self.usernameLabel.text = [NSString stringWithFormat:@"@%@", user.username];
 }
 
 - (void)didReceiveMemoryWarning {

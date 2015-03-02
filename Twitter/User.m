@@ -55,6 +55,15 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
                            alpha:1];
 }
 
+- (void)removeFromUsers {
+    if (self == [User currentUser]) {
+        [User setCurrentUser:nil];
+        [[TwitterClient sharedInstance].requestSerializer removeAccessToken];
+    }
+    
+    [User removeUserFromStorage:self];
+}
+
 + (NSArray *)usersWithArray:(NSArray *)array {
     NSMutableArray *users = [NSMutableArray array];
     
@@ -161,6 +170,8 @@ NSString * const kCurrentUsersCredentialsDictionaryKey = @"kCurrentUsersCredenti
 + (void)removeUserFromStorage:(User *)user {
     [self removeUser:user fromUserDefaultsKey:kCurrentUsersDictionaryKey];
     [self removeUser:user fromUserDefaultsKey:kCurrentUsersCredentialsDictionaryKey];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (void)removeUser:(User *)user fromUserDefaultsKey:(NSString *)key {

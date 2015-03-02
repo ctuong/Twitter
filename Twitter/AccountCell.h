@@ -9,9 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 
+@class AccountCell;
+
+@protocol AccountCellDelegate <NSObject>
+
+- (void)accountCell:(AccountCell *)accountCell didRemoveUser:(User *)user;
+
+@end
+
 @interface AccountCell : UITableViewCell
 
 @property (nonatomic, strong) User *user;
 @property (nonatomic, assign, getter=isAddNewCell) BOOL addNewCell;
+
+@property (weak, nonatomic) id<AccountCellDelegate> delegate;
 
 @end

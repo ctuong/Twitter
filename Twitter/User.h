@@ -28,6 +28,7 @@ extern NSString * const UserDidLogoutNotification;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
 - (void)storeCredential:(BDBOAuth1Credential *)credential;
+- (void)removeFromUsers;
 
 + (User *)currentUser;
 + (void)setCurrentUser:(User *)currentUser;

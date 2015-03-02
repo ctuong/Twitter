@@ -65,11 +65,11 @@
     NSDictionary *attributes = [NSDictionary dictionaryWithObjects:@[[UIColor colorWithWhite:1 alpha:1]] forKeys:@[NSForegroundColorAttributeName]];
     [[UINavigationBar appearance] setTitleTextAttributes:attributes];
     
-    [self addChildViewController:self.tweetsViewNavigationController];
-    self.tweetsViewNavigationController.view.frame = self.contentView.frame;
-    [self.contentView addSubview:self.tweetsViewNavigationController.view];
-    [self.tweetsViewNavigationController didMoveToParentViewController:self];
-    self.currentContentViewController = self.tweetsViewNavigationController;
+    if (self.accountsViewShouldBeActive) {
+        [self addCurrentContentViewController:self.accountsViewController];
+    } else {
+        [self addCurrentContentViewController:self.tweetsViewNavigationController];
+    }
     
     // initalize the profile view
     self.profileViewNavigationController = [[UINavigationController alloc] initWithRootViewController:self.profileViewController];

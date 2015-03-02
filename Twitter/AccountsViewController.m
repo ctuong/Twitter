@@ -10,8 +10,9 @@
 #import "AccountCell.h"
 #import "TwitterClient.h"
 #import "ContainerViewController.h"
+#import "LoginViewController.h"
 
-@interface AccountsViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface AccountsViewController () <UITableViewDataSource, UITableViewDelegate, AccountCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *accounts;
@@ -68,6 +69,7 @@
     } else {
         cell.addNewCell = YES;
     }
+    cell.delegate = self;
     
     return cell;
 }
@@ -91,6 +93,24 @@
                 NSLog(@"Error logging in: %@", error);
             }
         }];
+    }
+}
+
+#pragma mark - AccountCellDelegate methods
+
+- (void)accountCell:(AccountCell *)accountCell didRemoveUser:(User *)user {
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:accountCell];
+    NSMutableArray *accounts = [self.accounts mutableCopy];
+    [accounts removeObjectAtIndex:indexPath.row];
+    self.accounts = accounts;
+    [user removeFromUsers];
+    
+    if (self.accounts.count == 0) {
+        // no accounts left, show login screen
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        [self presentViewController:lvc animated:YES completion:nil];
+    } else {
+        [self.tableView reloadData];
     }
 }
 

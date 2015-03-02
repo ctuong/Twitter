@@ -10,4 +10,6 @@
 
 @interface ContainerViewController : UIViewController
 
+@property (nonatomic, assign) BOOL accountsViewShouldBeActive;
+
 @end

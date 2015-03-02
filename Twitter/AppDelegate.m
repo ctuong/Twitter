@@ -50,7 +50,16 @@
 }
 
 - (void)userDidLogout {
-    self.window.rootViewController = [[LoginViewController alloc] init];
+    NSArray *users = [User allUsers];
+    if (users.count > 0) {
+        // there are other users logged in, show the account picker page
+        ContainerViewController *cvc = [[ContainerViewController alloc] init];
+        cvc.accountsViewShouldBeActive = YES;
+        self.window.rootViewController = cvc;
+    } else {
+        // otherwise, show login
+        self.window.rootViewController = [[LoginViewController alloc] init];
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

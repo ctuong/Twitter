@@ -20,6 +20,7 @@ extern NSString * const UserDidLogoutNotification;
 @property (nonatomic, strong) NSString *profileImageURL;
 @property (nonatomic, strong) NSString *profileBackgroundImageURL;
 @property (nonatomic, strong) NSString *profileBannerURL;
+@property (nonatomic, strong) UIColor *profileBackgroundColor;
 @property (nonatomic, strong) NSString *tagline;
 @property (nonatomic, assign) long tweetCount;
 @property (nonatomic, assign) long followingCount;

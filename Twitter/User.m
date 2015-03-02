@@ -34,6 +34,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
         self.profileImageURL = dictionary[@"profile_image_url"];
         self.profileBackgroundImageURL = dictionary[@"profile_background_image_url"];
         self.profileBannerURL = dictionary[@"profile_banner_url"];
+        self.profileBackgroundColor = [self colorFromHex:dictionary[@"profile_background_color"]];
         self.tagline = dictionary[@"description"];
         self.tweetCount = [dictionary[@"statuses_count"] longValue];
         self.followingCount = [dictionary[@"friends_count"] longValue];
@@ -41,6 +42,17 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     }
     
     return self;
+}
+
+- (UIColor *)colorFromHex:(NSString *)hexString {
+    unsigned int rgbValue = 0;
+    NSScanner *scanner = [NSScanner scannerWithString:hexString];
+    [scanner scanHexInt:&rgbValue];
+    
+    return [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0
+                           green:((float)((rgbValue & 0x00FF00) >>  8))/255.0
+                            blue:((float)((rgbValue & 0x0000FF) >>  0))/255.0
+                           alpha:1];
 }
 
 + (NSArray *)usersWithArray:(NSArray *)array {

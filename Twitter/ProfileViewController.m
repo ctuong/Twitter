@@ -67,7 +67,12 @@
 }
 
 - (void)initElementsFromUser:(User*) user {
-    [self.bannerImageView setImageWithURL:[NSURL URLWithString:user.profileBannerURL]];
+    if (user.profileBannerURL) {
+        [self.bannerImageView setImageWithURL:[NSURL URLWithString:user.profileBannerURL]];
+    } else {
+        self.bannerImageView.backgroundColor = user.profileBackgroundColor;
+    }
+    
     [self.profileImageView setImageWithURL:[NSURL URLWithString:user.profileImageURL]];
     self.profileImageView.layer.cornerRadius = 3;
     self.profileImageView.clipsToBounds = YES;

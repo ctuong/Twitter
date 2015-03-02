@@ -24,7 +24,7 @@
     self.tableView.estimatedRowHeight = 100;
     [self.tableView registerNib:[UINib nibWithNibName:@"TweetCell" bundle:nil] forCellReuseIdentifier:@"TweetCell"];
     
-    [self getTweets];
+//    [self getTweets];
     
     [self.tableView addInfiniteScrollingWithActionHandler:^{
         [self getMoreTweets];

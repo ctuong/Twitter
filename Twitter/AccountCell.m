@@ -38,6 +38,7 @@
     self.userImageView.clipsToBounds = YES;
     self.nameLabel.text = user.name;
     self.usernameLabel.text = [NSString stringWithFormat:@"@%@", user.username];
+    self.contentView.backgroundColor = user.profileBackgroundColor;
 }
 
 - (void)setAddNewCell:(BOOL)addNewCell {

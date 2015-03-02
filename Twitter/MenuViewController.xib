@@ -6,12 +6,13 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MenuViewController">
             <connections>
+                <outlet property="accountsView" destination="ifk-87-dKe" id="cuZ-J2-lzR"/>
                 <outlet property="homeView" destination="O0K-m3-dMo" id="k78-hL-g2q"/>
                 <outlet property="mentionsView" destination="Ecf-SV-8jc" id="2La-Bo-Hjp"/>
                 <outlet property="nameLabel" destination="P5m-4I-kjP" id="Nxa-yE-RB9"/>
                 <outlet property="profileImageView" destination="5bS-wJ-2hX" id="1Ia-Uz-Hrx"/>
                 <outlet property="profileView" destination="vVF-OC-ITo" id="mRe-nS-LL0"/>
-                <outlet property="signOutView" destination="ifk-87-dKe" id="x4H-rE-ajn"/>
+                <outlet property="signOutView" destination="R1P-AS-LKz" id="CFl-bP-e7m"/>
                 <outlet property="usernameLabel" destination="V6f-jb-yhf" id="3lr-Hy-bNE"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -36,10 +37,18 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4lI-kO-DXQ">
-                    <rect key="frame" x="0.0" y="333.5" width="320" height="1"/>
+                    <rect key="frame" x="0.0" y="333" width="320" height="1"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="8Sg-KD-PmI"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yaR-ob-gJ4">
+                    <rect key="frame" x="0.0" y="416" width="320" height="1"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="8pv-QO-Ln2"/>
+                        <constraint firstAttribute="height" constant="1" id="b0A-va-rtZ"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3I4-5Y-dKd">
@@ -52,7 +61,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ifk-87-dKe">
                     <rect key="frame" x="0.0" y="253" width="320" height="80"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMg-cR-NPX">
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accounts" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FMg-cR-NPX">
                             <rect key="frame" x="8" y="29" width="304" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -69,6 +78,30 @@
                     </constraints>
                     <connections>
                         <outletCollection property="gestureRecognizers" destination="6SX-MZ-45g" appends="YES" id="9bM-2S-lyC"/>
+                    </connections>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R1P-AS-LKz">
+                    <rect key="frame" x="0.0" y="335" width="320" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lyu-YX-wgY">
+                            <rect key="frame" x="8" y="29" width="304" height="20.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <constraints>
+                        <constraint firstAttribute="centerY" secondItem="lyu-YX-wgY" secondAttribute="centerY" id="5K7-JE-I5z"/>
+                        <constraint firstAttribute="height" constant="80" id="CkI-zl-A7L"/>
+                        <constraint firstItem="lyu-YX-wgY" firstAttribute="leading" secondItem="R1P-AS-LKz" secondAttribute="leading" constant="8" id="MRi-Q6-ex6"/>
+                        <constraint firstAttribute="centerY" secondItem="lyu-YX-wgY" secondAttribute="centerY" id="Uor-f1-LbI"/>
+                        <constraint firstAttribute="trailing" secondItem="lyu-YX-wgY" secondAttribute="trailing" constant="8" id="Ypf-1c-1xP"/>
+                        <constraint firstItem="lyu-YX-wgY" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="R1P-AS-LKz" secondAttribute="leading" constant="8" id="oau-qP-wVD"/>
+                    </constraints>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="Nt9-U6-SUL" appends="YES" id="KyL-pg-s4u"/>
                     </connections>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O0K-m3-dMo">
@@ -167,8 +200,10 @@
                 <constraint firstAttribute="trailing" secondItem="3I4-5Y-dKd" secondAttribute="trailing" id="CS6-TE-Wjw"/>
                 <constraint firstItem="q7e-n8-NAC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Ep3-FF-h9c"/>
                 <constraint firstAttribute="trailing" secondItem="ifk-87-dKe" secondAttribute="trailing" id="Huu-nJ-w5F"/>
+                <constraint firstItem="R1P-AS-LKz" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MHT-FD-KWT"/>
                 <constraint firstItem="vVF-OC-ITo" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="MWk-sz-cbB"/>
                 <constraint firstAttribute="trailing" secondItem="q7e-n8-NAC" secondAttribute="trailing" id="RLN-nn-DZ2"/>
+                <constraint firstAttribute="trailing" secondItem="yaR-ob-gJ4" secondAttribute="trailing" id="RiW-RD-vLe"/>
                 <constraint firstItem="vVF-OC-ITo" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" placeholder="YES" id="ShA-My-YLM"/>
                 <constraint firstItem="gYn-RF-3fT" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="T31-3X-b77"/>
                 <constraint firstItem="4lI-kO-DXQ" firstAttribute="top" secondItem="ifk-87-dKe" secondAttribute="bottom" id="Tr4-nC-Wwx"/>
@@ -178,9 +213,13 @@
                 <constraint firstAttribute="trailing" secondItem="Ecf-SV-8jc" secondAttribute="trailing" id="gCH-6B-gOJ"/>
                 <constraint firstAttribute="trailing" secondItem="O0K-m3-dMo" secondAttribute="trailing" id="gRu-4D-l4A"/>
                 <constraint firstItem="ifk-87-dKe" firstAttribute="top" secondItem="Ecf-SV-8jc" secondAttribute="bottom" constant="2" id="i4d-8U-ccj"/>
+                <constraint firstItem="yaR-ob-gJ4" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="iuN-rP-S4m"/>
                 <constraint firstAttribute="trailing" secondItem="4lI-kO-DXQ" secondAttribute="trailing" id="j0v-KJ-7h8"/>
                 <constraint firstItem="q7e-n8-NAC" firstAttribute="top" secondItem="O0K-m3-dMo" secondAttribute="bottom" id="kyA-UF-gAP"/>
                 <constraint firstItem="ifk-87-dKe" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="mlP-Oe-fCq"/>
+                <constraint firstAttribute="trailing" secondItem="R1P-AS-LKz" secondAttribute="trailing" id="nUU-he-PZH"/>
+                <constraint firstItem="yaR-ob-gJ4" firstAttribute="top" secondItem="R1P-AS-LKz" secondAttribute="bottom" constant="1" id="vfn-4D-jZ6"/>
+                <constraint firstItem="R1P-AS-LKz" firstAttribute="top" secondItem="4lI-kO-DXQ" secondAttribute="bottom" constant="1" id="zDC-cq-J3x"/>
                 <constraint firstItem="Ecf-SV-8jc" firstAttribute="top" secondItem="O0K-m3-dMo" secondAttribute="bottom" constant="1" id="zcx-vJ-gHx"/>
             </constraints>
             <point key="canvasLocation" x="325" y="387"/>
@@ -200,9 +239,14 @@
                 <action selector="onTapGesture:" destination="-1" id="bw8-or-hPW"/>
             </connections>
         </tapGestureRecognizer>
-        <tapGestureRecognizer id="6SX-MZ-45g" userLabel="Sign Out Tap Gesture Recognizer">
+        <tapGestureRecognizer id="6SX-MZ-45g" userLabel="Accounts Tap Gesture Recognizer">
             <connections>
                 <action selector="onTapGesture:" destination="-1" id="6gI-Eg-dzc"/>
+            </connections>
+        </tapGestureRecognizer>
+        <tapGestureRecognizer id="Nt9-U6-SUL" userLabel="Sign Out Tap Gesture Recognizer">
+            <connections>
+                <action selector="onTapGesture:" destination="-1" id="vh4-fj-OFA"/>
             </connections>
         </tapGestureRecognizer>
     </objects>

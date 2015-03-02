@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <BDBOAuth1RequestSerializer.h>
 
 extern NSString * const UserDidLoginNotification;
 extern NSString * const UserDidLogoutNotification;
@@ -25,9 +26,11 @@ extern NSString * const UserDidLogoutNotification;
 @property (nonatomic, assign) long followerCount;
 
 - (id)initWithDictionary:(NSDictionary *)dictionary;
+- (void)storeCredential:(BDBOAuth1Credential *)credential;
 
 + (User *)currentUser;
 + (void)setCurrentUser:(User *)currentUser;
 + (void)logout;
++ (NSArray *)allUsers;
 
 @end

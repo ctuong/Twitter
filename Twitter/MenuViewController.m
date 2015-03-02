@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIView *profileView;
 @property (weak, nonatomic) IBOutlet UIView *homeView;
 @property (weak, nonatomic) IBOutlet UIView *mentionsView;
+@property (weak, nonatomic) IBOutlet UIView *accountsView;
 @property (weak, nonatomic) IBOutlet UIView *signOutView;
 
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
@@ -61,6 +62,8 @@
         [self.delegate homeTimelineViewSelected];
     } else if (sender.view == self.mentionsView) {
         [self.delegate mentionsViewSelected];
+    } else if (sender.view == self.accountsView) {
+        [self.delegate accountsViewSelected];
     } else if (sender.view == self.signOutView) {
         [self.delegate signOutViewSelected];
     }

@@ -16,6 +16,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
 
 // used to restore and save the current user
 @property (nonatomic, strong) NSDictionary *dictionary;
+@property (nonatomic, strong) NSString *userIdString;
 
 @end
 
@@ -27,6 +28,7 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
         self.dictionary = dictionary;
         
         self.userId = [dictionary[@"id"] longLongValue];
+        self.userIdString = [NSString stringWithFormat:@"%lld", self.userId];
         self.name = dictionary[@"name"];
         self.username = dictionary[@"screen_name"];
         self.profileImageURL = dictionary[@"profile_image_url"];
@@ -41,16 +43,32 @@ NSString * const UserDidLogoutNotification = @"UserDidLogoutNotification";
     return self;
 }
 
++ (NSArray *)usersWithArray:(NSArray *)array {
+    NSMutableArray *users = [NSMutableArray array];
+    
+    for (NSDictionary *dictionary in array) {
+        [users addObject:[[User alloc] initWithDictionary:dictionary]];
+    }
+    
+    return users;
+}
+
 static User *_currentUser = nil;
 
-NSString * const kCurrentUserKey = @"kCurrentUserKey";
+NSString * const kCurrentUserIdKey = @"kCurrentUserId";
+NSString * const kCurrentUsersDictionaryKey = @"kCurrentUsersDictionary";
+NSString * const kCurrentUsersCredentialsDictionaryKey = @"kCurrentUsersCredentials";
 
 + (User *)currentUser {
     if (!_currentUser) {
-        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUserKey];
-        if (data) {
-            NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
-            _currentUser = [[User alloc] initWithDictionary:dictionary];
+        NSString *userId = [[NSUserDefaults standardUserDefaults] stringForKey:kCurrentUserIdKey];
+        if (userId) {
+            NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUsersDictionaryKey];
+            if (data) {
+                NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                NSDictionary *userDictionary = dictionary[userId];
+                _currentUser = [[User alloc] initWithDictionary:userDictionary];
+            }
         }
     }
     
@@ -61,20 +79,107 @@ NSString * const kCurrentUserKey = @"kCurrentUserKey";
     _currentUser = currentUser;
     
     if (_currentUser) {
-        NSData *data = [NSJSONSerialization dataWithJSONObject:currentUser.dictionary options:0 error:NULL];
-        [[NSUserDefaults standardUserDefaults] setObject:data forKey:kCurrentUserKey];
+        [[NSUserDefaults standardUserDefaults] setObject:_currentUser.userIdString forKey:kCurrentUserIdKey];
+        [self addUserToStorage:_currentUser];
+        // set the credentials to be those of the new current user
+        [[TwitterClient sharedInstance].requestSerializer removeAccessToken];
+        [[TwitterClient sharedInstance].requestSerializer saveAccessToken:[_currentUser getCredential]];
     } else {
-        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kCurrentUserKey];
+        [[NSUserDefaults standardUserDefaults] setObject:nil forKey:kCurrentUserIdKey];
     }
     
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+// save the user dictionary to user defaults
++ (void)addUserToStorage:(User *)user {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUsersDictionaryKey];
+    if (data) {
+        // update the existing users dictionary with this user
+        NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSMutableDictionary *updatedDictionary = [dictionary mutableCopy];
+        [updatedDictionary setObject:user.dictionary forKey:user.userIdString];
+        NSData *dataToStore = [NSKeyedArchiver archivedDataWithRootObject:updatedDictionary];
+        [[NSUserDefaults standardUserDefaults] setObject:dataToStore forKey:kCurrentUsersDictionaryKey];
+    } else {
+        // initialize the current users dictionary key to be a dictionary with just this user
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:user.dictionary forKey:user.userIdString];
+        NSData *dataToStore = [NSKeyedArchiver archivedDataWithRootObject:dictionary];
+        [[NSUserDefaults standardUserDefaults] setObject:dataToStore forKey:kCurrentUsersDictionaryKey];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+// retrieve the user's credentials from user defaults
+- (BDBOAuth1Credential *)getCredential {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUsersCredentialsDictionaryKey];
+    if (data) {
+        NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSData *credentialData = dictionary[self.userIdString];
+        return [NSKeyedUnarchiver unarchiveObjectWithData:credentialData];
+    }
+    return nil;
+}
+
+// store the credentials to user defaults
+- (void)storeCredential:(BDBOAuth1Credential *)credential {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUsersCredentialsDictionaryKey];
+    // TODO might not need to archive credential data since archiving the whole dictionary
+    NSData *credentialData = [NSKeyedArchiver archivedDataWithRootObject:credential];
+    
+    if (data) {
+        // update the existing credentials dictionary with these credentials
+        NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSMutableDictionary *updatedDictionary = [dictionary mutableCopy];
+        [updatedDictionary setObject:credentialData forKey:self.userIdString];
+        NSData *dataToStore = [NSKeyedArchiver archivedDataWithRootObject:updatedDictionary];
+        [[NSUserDefaults standardUserDefaults] setObject:dataToStore forKey:kCurrentUsersCredentialsDictionaryKey];
+    } else {
+        // initialize the credentials dictionary key to be a dictionary with just these credentials
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObject:credentialData forKey:self.userIdString];
+        NSData *dataToStore = [NSKeyedArchiver archivedDataWithRootObject:dictionary];
+        [[NSUserDefaults standardUserDefaults] setObject:dataToStore forKey:kCurrentUsersCredentialsDictionaryKey];
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+// removes the user from both the users dictionary and the credentials dictionary
++ (void)removeUserFromStorage:(User *)user {
+    [self removeUser:user fromUserDefaultsKey:kCurrentUsersDictionaryKey];
+    [self removeUser:user fromUserDefaultsKey:kCurrentUsersCredentialsDictionaryKey];
+}
+
++ (void)removeUser:(User *)user fromUserDefaultsKey:(NSString *)key {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:key];
+    if (data) {
+        NSDictionary *dictionary = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        if (dictionary[user.userIdString]) {
+            NSMutableDictionary *updatedDictionary = [dictionary mutableCopy];
+            [updatedDictionary removeObjectForKey:user.userIdString];
+            NSData *dataToStore = [NSKeyedArchiver archivedDataWithRootObject:updatedDictionary];
+            [[NSUserDefaults standardUserDefaults] setObject:dataToStore forKey:key];
+        }
+    }
+}
+
 + (void)logout {
+    [self removeUserFromStorage:_currentUser];
     [User setCurrentUser:nil];
     [[TwitterClient sharedInstance].requestSerializer removeAccessToken];
     
     [[NSNotificationCenter defaultCenter] postNotificationName:UserDidLogoutNotification object:nil];
+}
+
++ (NSArray *)allUsers {
+    NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:kCurrentUsersDictionaryKey];
+    if (data) {
+        NSDictionary *users = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+        NSArray *userDictionaries = [users allValues];
+        return [self usersWithArray:userDictionaries];
+    }
+    return [NSArray array];
 }
 
 @end

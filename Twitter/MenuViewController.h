@@ -15,6 +15,7 @@
 - (void)profileViewSelected;
 - (void)homeTimelineViewSelected;
 - (void)mentionsViewSelected;
+- (void)accountsViewSelected;
 - (void)signOutViewSelected;
 
 @end

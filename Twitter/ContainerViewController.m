@@ -11,6 +11,7 @@
 #import "ProfileViewController.h"
 #import "MentionsViewController.h"
 #import "MenuViewController.h"
+#import "AccountsViewController.h"
 #import "User.h"
 
 @interface ContainerViewController () <MenuViewControllerDelegate>
@@ -24,6 +25,7 @@
 @property (nonatomic, strong) TweetsViewController *tweetsViewController;
 @property (nonatomic, strong) UINavigationController *mentionsViewNavigationController;
 @property (nonatomic, strong) MentionsViewController *mentionsViewController;
+@property (nonatomic, strong) AccountsViewController *accountsViewController;
 @property (nonatomic, strong) UINavigationController *menuViewNavigationController;
 @property (nonatomic, strong) MenuViewController *menuViewController;
 
@@ -50,6 +52,7 @@
     self.profileViewController.user = [User currentUser];
     self.tweetsViewController = [[TweetsViewController alloc] initWithNibName:@"TweetListViewController" bundle:[NSBundle mainBundle]];
     self.mentionsViewController = [[MentionsViewController alloc] initWithNibName:@"TweetListViewController" bundle:[NSBundle mainBundle]];
+    self.accountsViewController = [[AccountsViewController alloc] init];
     self.menuViewController = [[MenuViewController alloc] init];
     self.menuViewController.delegate = self;
     
@@ -117,6 +120,12 @@
     [self removeCurrentContentViewController];
     [self animateCloseMenuView];
     [self addCurrentContentViewController:self.mentionsViewNavigationController];
+}
+
+- (void)accountsViewSelected {
+    [self removeCurrentContentViewController];
+    [self animateCloseMenuView];
+    [self addCurrentContentViewController:self.accountsViewController];
 }
 
 - (void)signOutViewSelected {

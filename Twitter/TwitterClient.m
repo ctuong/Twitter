@@ -65,6 +65,7 @@ NSString * const kTwitterFavoriteDestroyPath = @"1.1/favorites/destroy.json";
         
         [self GET:kTwitterUserVerifyCredentialsPath parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             User *user = [[User alloc] initWithDictionary:responseObject];
+            [user storeCredential:accessToken];
             [User setCurrentUser:user];
             self.loginCompletion(user, nil);
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

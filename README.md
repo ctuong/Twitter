@@ -4,7 +4,9 @@ This is a basic Twitter app to read and compose tweets via the [Twitter API](htt
 
 Time spent (part 1): `12.5 hours`
 
-Time spent (part 2): `x hours`
+Time spent (part 2): `11.5 hours`
+
+Time spent (total): `24 hours`
 
 ### Set up
 You must create a config.plist file with the keys `twitterConsumerKey` and `twitterConsumerSecret` with the proper values to access the Twitter API.
@@ -35,7 +37,7 @@ You must create a config.plist file with the keys `twitterConsumerKey` and `twit
 
 ### Walkthrough
 
-![Video Walkthrough](...)
+![Video Walkthrough](twitter2.gif)
 
 ### Features - Part 1
 

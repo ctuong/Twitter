@@ -8,6 +8,8 @@
 
 #import "AccountsViewController.h"
 #import "AccountCell.h"
+#import "TwitterClient.h"
+#import "ContainerViewController.h"
 
 @interface AccountsViewController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -20,13 +22,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    id topGuide = self.topLayoutGuide;
+    UITableView *tableView = self.tableView;
+    NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(tableView, topGuide);
+    [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[topGuide]-0-[tableView]" options:0 metrics:nil views:viewsDictionary]];
 
     self.accounts = [User allUsers];
         
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.rowHeight = UITableViewAutomaticDimension;
-    
+    self.tableView.estimatedRowHeight = 125;
     [self.tableView registerNib:[UINib nibWithNibName:@"AccountCell" bundle:nil] forCellReuseIdentifier:@"AccountCell"];
 }
 
@@ -38,13 +45,18 @@
 #pragma mark - UITableViewDataSource methods
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.accounts.count;
+    return self.accounts.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     AccountCell *cell = [tableView dequeueReusableCellWithIdentifier:@"AccountCell" forIndexPath:indexPath];
     
-    cell.user = self.accounts[indexPath.row];
+    if (indexPath.row < self.accounts.count) {
+        cell.user = self.accounts[indexPath.row];
+        cell.addNewCell = NO;
+    } else {
+        cell.addNewCell = YES;
+    }
     
     return cell;
 }
@@ -53,6 +65,22 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.row < self.accounts.count) {
+        User *newUser = self.accounts[indexPath.row];
+        [User setCurrentUser:newUser];
+        ContainerViewController *cvc = [[ContainerViewController alloc] init];
+        [self presentViewController:cvc animated:YES completion:nil];
+    } else {
+        [[TwitterClient sharedInstance] loginWithCompletion:^(User *user, NSError *error) {
+            if (user) {
+                ContainerViewController *cvc = [[ContainerViewController alloc] init];
+                [self presentViewController:cvc animated:YES completion:nil];
+            } else {
+                NSLog(@"Error logging in: %@", error);
+            }
+        }];
+    }
 }
 
 @end

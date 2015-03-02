@@ -12,5 +12,6 @@
 @interface AccountCell : UITableViewCell
 
 @property (nonatomic, strong) User *user;
+@property (nonatomic, assign, getter=isAddNewCell) BOOL addNewCell;
 
 @end
